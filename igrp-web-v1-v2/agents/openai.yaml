@@ -1,0 +1,6 @@
+interface:
+  display_name: "IGRP 1.x e 2.x"
+  short_description: "Desenvolver, auditar e migrar projetos IGRP v1 e v2 (todas as builds)"
+  default_prompt: "Usa $igrp-web-v1-v2 para identificar a versão IGRP deste projeto e auditá-lo com base na documentação oficial."
+policy:
+  allow_implicit_invocation: true

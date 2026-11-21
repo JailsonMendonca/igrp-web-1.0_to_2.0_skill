@@ -1,0 +1,1694 @@
+# Analise documental por p_id (fonte para reports/validacao-documental.md)
+# Formato: bloco "@<p_id>" seguido de linhas "campo: valor". Campos: versao, tema, conceitos, tecnologias,
+# componentes, regras, praticas, estado. Codigo verificado: v1 = origin/develop@6d7b32f (1.9.1.261027),
+# v2 = origin/igrp-horizon-dev@230df4c (2.1.1.261027).
+
+@1000
+versao: v1+v2 (apresentacao geral); contem faixa com ligacao para a doc IGRP 3.0 (excluida)
+tema: apresentacao da plataforma igrpweb
+conceitos: plataforma open source NOSi; foco em etapas de negocio e processos; geracao automatica de ~80% do codigo; licenca Apache 2.0; arquitetura leve; interoperabilidade com aplicacoes nativas e de terceiros; IGRP Studio (geradores de interface, fluxos de processo e relatorios); varias bases de dados
+tecnologias: Java, XML, XSL, JS, CSS, SQL (figura 1)
+componentes: IGRP Studio; workflow, acessos e permissoes (figura 2)
+regras: -
+praticas: -
+estado: ok; arquitetura so em alto nivel (figuras nao textuais); ligacao 3.0 fora de ambito
+
+@1145
+versao: v1 (texto legacy) + indicacao explicita v2: "JDK17 para horizon ou JDK8 para legacy"
+tema: instalacao do JDK e variaveis de ambiente
+conceitos: JDK/JRE; JAVA_HOME, JRE_HOME, PATH; verificacao com java -version / javac -version
+tecnologias: JDK 8 (legacy), JDK 17 (horizon), Windows
+componentes: -
+regras: v1 usa JDK 8; v2 usa JDK 17
+praticas: verificar as variaveis de ambiente na linha de comandos
+estado: parcialmente desatualizado (o proprio doc declara "preparada para a versao legacy"); passos so Windows
+
+@1146
+versao: v1 (Eclipse) com nota: pode usar IntelliJ Community e "arrancar pelo maven"
+tema: instalacao de IDE
+conceitos: Eclipse IDE for Enterprise Java Developers; alternativa IntelliJ + Maven
+tecnologias: Eclipse, IntelliJ
+componentes: -
+regras: -
+praticas: arranque via Maven (independente do IDE)
+estado: ok (generico)
+
+@1148
+versao: v1+v2
+tema: instalacao PostgreSQL
+conceitos: PostgreSQL usado no tutorial para os dados da aplicacao e do framework; "e possivel utilizar qualquer base de dados"; porta 5432
+tecnologias: PostgreSQL
+componentes: -
+regras: -
+praticas: manter porta por defeito 5432 em ambiente local
+estado: ok (passos de instalador genericos)
+
+@1147
+versao: v1 (TomEE Plus 8.0.6 dedicado); nota: com "mvn package tomee:run|tomee:debug" nao e preciso TomEE dedicado
+tema: instalacao opcional do Apache TomEE
+conceitos: TomEE = Tomcat + EJB/CDI (Web Profile); servidor de deploy do igrpweb
+tecnologias: Apache TomEE Plus 8.0.6
+componentes: -
+regras: TomEE dedicado e opcional quando se usa o plugin Maven tomee
+praticas: preferir tomee:run / tomee:debug
+estado: desatualizado para v2 (doc declara-se legacy; v2 usa TomEE 10.x)
+
+@1149
+versao: v1+v2 (archetype atual); passos de import Eclipse marcados "DESCONTINUADOS"
+tema: geracao do projeto por archetype ou importacao
+conceitos: archetype publicado no repositorio Maven; mvn archetype:generate -Dfilter=igrp -DdbUser -DdbPassword -DdbJdbcUrl; arranque mvn package tomee:run; remete para o README de NOSiCode-CV/IGRP-Framework; template Git IGRP-Java-Template-Eclipse so para contribuir/acesso privado
+tecnologias: Maven, Eclipse, IntelliJ, Git
+componentes: archetype igrp
+regras: "a partir de agora e recomendado usar o archetype"
+praticas: gerar projeto pelo archetype em vez de clonar template
+estado: misto: topo atual; restante descontinuado (so historico v1)
+
+@1151
+versao: v1 (Eclipse + TomEE Plus 8.0.5 / Tomcat 9.0)
+tema: adicionar servidor no Eclipse
+conceitos: separador Servers; runtime Tomcat 9.0 correspondente ao TomEE Plus 8
+tecnologias: Eclipse WTP, Tomcat 9, TomEE Plus 8.0.5
+componentes: -
+regras: -
+praticas: -
+estado: v1 apenas; fluxo substituido por tomee:run
+
+@1154
+versao: v1 (Eclipse/Tomcat)
+tema: configuracao do servidor Tomcat no Eclipse
+conceitos: timeouts de arranque 120/60 em vez de 45/15; encoding UTF-8 na launch configuration
+tecnologias: Eclipse, Tomcat
+componentes: -
+regras: -
+praticas: UTF-8 para evitar erros de caracteres especiais; aumentar timeouts
+estado: v1 apenas
+
+@1150
+versao: v1 (Eclipse)
+tema: arrumacao do workspace Eclipse
+conceitos: consola, separador Servers, reset do workspace
+tecnologias: Eclipse
+componentes: -
+regras: -
+praticas: -
+estado: v1 apenas; sem regras tecnicas
+
+@1206
+versao: v1 (Eclipse/Tomcat 9)
+tema: Java Build Path do template
+conceitos: remover pastas "(missing)" e servidor "Unbound"; adicionar Server Runtime Apache Tomcat v9.0; Order and Export
+tecnologias: Eclipse, Tomcat 9
+componentes: IGRP Template
+regras: -
+praticas: -
+estado: v1 apenas (template Eclipse descontinuado)
+
+@1152
+versao: v1+v2 (ficheiro existe nos dois ramos)
+tema: configuracao de main.xml
+conceitos: src/main/resources/config/common/main.xml; chave igrp.workspace = caminho absoluto do projeto (workspace)
+tecnologias: XML properties
+componentes: main.xml
+regras: preencher igrp.workspace com o caminho do projeto
+praticas: -
+estado: ok; passos com atalhos Eclipse (CTRL+SHIFT+R)
+
+@1153
+versao: v1+v2
+tema: criacao da BD e configuracao da ligacao do framework
+conceitos: criar BD (ex.: db_igrp) no pgAdmin; configurar hibernate-igrp-core.cfg.xml em src/main/resources
+tecnologias: PostgreSQL, pgAdmin, Hibernate
+componentes: hibernate-igrp-core.cfg.xml
+regras: BD do framework criada antes do arranque
+praticas: -
+estado: titulo desatualizado ("db_igrp_config.xml") vs conteudo (hibernate-igrp-core.cfg.xml); nos projetos atuais a ligacao esta em hibernate-igrp-core.properties filtrado pelo Maven (igrp.db.*) [PROJ teste]
+
+@1219
+versao: v1+v2
+tema: configuracao do Flyway no pom.xml
+conceitos: Flyway Migration configurado no pom com utilizador, password e DSN da BD (exemplo db.user/db.password/db.dsn)
+tecnologias: Maven, Flyway, PostgreSQL
+componentes: pom.xml
+regras: configurar o Flyway antes de arrancar
+praticas: confirmar que as tags ficam bem fechadas
+estado: nomes de propriedades desatualizados: o template atual usa igrp.db.user/igrp.db.password/igrp.db.dsn/igrp.db.driver e igrp.migration.location [PROJ teste]; Flyway 9.22.3 (v1) vs 11.20.2 (v2) [CODIGO]
+
+@1004
+versao: v1 (Eclipse "Run on Server")
+tema: executar o template
+conceitos: Run As > Run on Server; login de demonstracao demo@nosi.cv / demo
+tecnologias: Eclipse, Tomcat
+componentes: IGRP Template
+regras: -
+praticas: alterar credenciais de demonstracao fora do ambiente local [ENG]
+estado: v1 apenas (fluxo Eclipse)
+
+@1202
+versao: v1 (Eclipse/Tomcat 9)
+tema: troubleshooting de sincronizacao Eclipse-servidor
+conceitos: servidor "unbound" por deploy mal feito ou erros em classes; voltar a adicionar Server Runtime
+tecnologias: Eclipse, Tomcat 9
+componentes: -
+regras: -
+praticas: -
+estado: v1 apenas
+
+@1220
+versao: v1+v2 (fluxo Maven/IntelliJ); referencias a db_igrp_config.xml herdadas
+tema: executar o projeto no IntelliJ
+conceitos: clone do IGRP-Template, importar como Maven, Trust Project; main.xml igrp.workspace; run Maven "clean package tomee:run" (Embedded TomEE); http://localhost:8080/IGRP-Template/; login demo
+tecnologias: IntelliJ, Maven, TomEE embebido
+componentes: main.xml, pom.xml
+regras: executar com tomee:run do plugin Maven
+praticas: configuracao de run Maven reutilizavel
+estado: ok com referencias desatualizadas (2.2.1 "importacao GitHub", db_igrp_config.xml)
+
+@1221
+versao: v2 (migracao 1.x -> 2.x)
+tema: migracao de projeto Maven de 1.X.X para 2.X.X
+conceitos: cv.igrp:igrp-core-war e igrp-core [2.0.0,3.0.0); maven.compiler.release 17; tomee.maven.plugin.version 10.0.1; web.xml: filtro nosi.core.filter.AuthenticationFilter mapeado ao servlet IGRP (opcional se existir web.xml); substituir javax por jakarta onde der erro
+tecnologias: Maven, Java 17, TomEE 10, Jakarta EE
+componentes: pom.xml, web.xml, AuthenticationFilter
+regras: as 4 etapas acima
+praticas: -
+estado: ok; confirmado: AuthenticationFilter so existe em v2; v2 usa jakarta.servlet/jakarta.ws.rs mas mantem javax.persistence (Hibernate 5.6) [CODIGO]; o ramo v2 ja usa TomEE 10.2.0 [CODIGO]
+
+@1223
+versao: v2 (troubleshooting de migracao)
+tema: problemas tipicos ao migrar para 2.x
+conceitos: substituir org.glassfish.jersey.client.ClientConfig por jakarta.ws.rs.client.ClientBuilder (propriedades jersey.config.client.connectTimeout/readTimeout); ResultSet.Record.RowList -> rowList; ResultSet.Record.Row -> row; rever pom.xml; Flyway na versao do template
+tecnologias: Jakarta RESTful WS, Jersey, Flyway
+componentes: nosi.core.webapp.databse.helpers.ResultSet
+regras: renomeacoes RowList/Row
+praticas: fechar o Client REST (client.close())
+estado: ok; confirmado: RowList (v1) -> rowList (v2) em ResultSet.java [CODIGO]; incompleto (itens pom.xml/Flyway sem detalhe)
+
+@1125
+versao: v1+v2 (padrao MVC e areas preservadas presentes nos dois ramos)
+tema: modelo MVC do igrpweb
+conceitos: cada pagina tem PageModel (contentor de dados), PageView (constroi o conteudo/XML) e PageController (regras de negocio, Core, Hibernate, devolve XML); pedido chama um metodo do Controller (geralmente actionIndex); view.setModel(model); area reservada /*----#start-code(x)----*/ ... /*----#end-code----*/ preserva codigo em regeneracoes
+tecnologias: Java, XML, Hibernate/JDBC
+componentes: Model, View, Controller, Core
+regras: o programador nao precisa nem deve alterar PageView e PageModel (gerados); programar no PageController, dentro da area reservada; alteracoes de layout no separador DESIGN
+praticas: separar apresentacao e negocio
+estado: ok
+
+@1127
+versao: v1+v2 (metodos confirmados em nosi.core nos dois ramos)
+tema: principais metodos da classe Core
+conceitos: testes logicos (isNull, isNotNull, isNullOrZero, isNotNullOrZero, isNotNullMultiple, isArraySameSize, isInt/isFloat/isDouble, isUploadedFiles); JSON (toJson, toJsonWithJsonBuilder, fromJson, fromJsonWithJsonBuilder); Map (toMap com prompt para combobox); criptografia (encrypt/decrypt com chave padrao ou chave secreta); aplicacao (getCurrentApp, getCurrentAppId, getCurrentDad, findApplicationByDad, findApplicationById)
+tecnologias: Java, JSON (Gson)
+componentes: nosi.core.webapp.Core, nosi.webapps.igrp.dao.Application
+regras: -
+praticas: [ENG] nao fixar chaves secretas no codigo (o exemplo usa uma literal)
+estado: ok; exemplo toMap troca keyField/valueField; Javadoc referido sem ligacao verificavel
+
+@1128
+versao: v1+v2
+tema: envio e rececao de parametros
+conceitos: campos do Model mapeados para parametro p_<tag> (@RParam); Core.getParam/getParamInt/Short/Long/Float/Double/BigDecimal/BigInteger/Array/getParameters (com variante isRemoved, removendo da sessao por defeito); metodos do Controller getQueryString*, ; addQueryString (padrao), loadQueryString (todo o Model), forward (envia o Model como p_*), redirect; 4.o argumento this.queryString() obrigatorio para enviar parametros a outra pagina; addQueryString/loadQueryString nao funcionam no actionIndex; setLink em botoes e addParam em lookup/locator para enviar parametros a partir do actionIndex
+tecnologias: Java
+componentes: Model (@RParam), Controller, Core, botoes, lookup
+regras: incluir this.queryString() em redirect/forward para outra pagina; no actionIndex usar setLink/addParam
+praticas: usar addQueryString como forma padrao
+estado: ok; gralha "Core.getParamLog" (o metodo e getParamLong) [CODIGO]; texto repetido
+
+@1129
+versao: v1+v2
+tema: metodos do Core para base de dados
+conceitos: Core.defaultConnection([dad]); Core.transaction([conn]); Core.insert/update/delete(tabela | conn,tabela | conn,schema,tabela [,displayError,tracingError]) -> BaseQueryInterface; Core.query(sql | sql,Config_env | conn,sql | conn,sql,Class ...); Core.executeQuery(env|conn, sql) -> ResultSet
+tecnologias: JDBC/Hibernate
+componentes: Core, QueryInterface, BaseQueryInterface, ResultSet, Config_env
+regras: -
+praticas: indicar sempre o nome da ligacao (as variantes sem ligacao usam a ligacao por defeito da aplicacao atual) [PROJ]
+estado: ok (lista de assinaturas sem explicacao)
+
+@1130
+versao: v1+v2 (Core.transaction, keepConnection e roolback existem nos dois ramos); AppSession.doInTransaction so em v2 [CODIGO]
+tema: transacoes com commit/rollback
+conceitos: transacao Hibernate via Core.getSession(conn) + session.getTransaction/begin/persist/commit/rollback/close; transacao por query via Core.transaction(): begin, insert..execute, commit, roolback (nome real do metodo), closeConnection; keepConnection() obrigatorio ao usar a mesma ligacao (BaseActiveRecord ou QueryInterface) durante uma transacao
+tecnologias: Hibernate Session/Transaction, JDBC
+componentes: Core, QueryInterface, BaseActiveRecord
+regras: dentro de uma transacao usar keepConnection() nas consultas pela mesma ligacao; fechar a sessao/ligacao no finally
+praticas: rollback no catch; mensagens Core.setMessageSuccess/Error
+estado: ok; [PROJ v2.1.1] getKeyValue() apos Core.insert falha em PostgreSQL (SET session audit) - contradiz o exemplo 2.2; em v2 existe AppSession.doInTransaction
+
+@1131
+versao: v1+v2
+tema: interacao com BD via Query
+conceitos: Core.query(conn, sql).where("id=:p").addInt(...) e model.load(query); getSingleRecord() -> ResultSet.Record (getInt/getString/...); model.loadTable_<tabela>(Core.query(...)) para varias linhas; getResultList() -> List<Tuple> (javax.persistence.Tuple); Core.insert/update/delete(conn,schema,tabela).addString/addInt.where.execute() -> ResultSet, hasError()
+tecnologias: SQL, javax.persistence.Tuple
+componentes: Core, QueryInterface, ResultSet, Model.load, loadTable
+regras: nomes/aliases das colunas iguais aos nomes dos campos do formulario/tabela
+praticas: parametros nomeados (:nome + addInt/addString) em vez de concatenacao
+estado: ok com defeitos nos exemplos: variante equivalente concatena o id no SQL [ENG: risco de injecao]; ";" a meio da cadeia de addString; getResultList atribuido a ResultSet
+
+@1132
+versao: v1+v2
+tema: interacao com BD via classes DAO (BaseActiveRecord)
+conceitos: findOne(id), findAll(), find().andWhere/orWhere/where/andWhereNotNull/andWhereBetween/orderBy/limit/one/all; navegacao de FK "campo.atributo"; operadores isnull/notnull, =, !=, >, <, >=, <=, like, not like; andWhere de 4 parametros com funcoes (lower(...)); orderBy de 1 parametro e DESCENDENTE; ORDERBY.ASC/DESC; setShowConsoleSql; insert() devolve o objeto com id; update(); delete(id) devolve boolean; hasError()/getError(); FK mapeada como objeto da classe relacionada
+tecnologias: Hibernate/JPA, HQL
+componentes: BaseActiveRecord, ORDERBY
+regras: anotacoes JPA nos campos e nao nos metodos; colecoes com fetch EAGER; colecoes como Set (nao ordenadas)
+praticas: eliminar dependencias antes do objeto pai; verificar hasError apos insert/update
+estado: ok com defeitos nos exemplos (Ex3 mistura person/document); [PROJ v2.1.1] DAOs gerados podem trazer @OneToMany com cascade ALL indevido
+
+@1024
+versao: v1+v2 (gerador formgen, separadores DESIGN/XML/XSL/JAVA iguais nos dois ramos)
+tema: Gerador de Codigo (Page Builder) - visao geral e funcionamento XML/XSL
+conceitos: drag and drop de componentes e campos; separadores DESIGN, XML, XSL, JAVA; linhas (ROW) e colunas (COL); gravar e aguardar feedback de sucesso (fechar sem gravar perde o codigo); botoes Custom Return causam falha de compilacao na gravacao mas a informacao da pagina e guardada; o browser recebe XML (dados) + XSL (modelo) e constroi o HTML no cliente; dados preparados no servidor pelo Java da pagina
+tecnologias: XML, XSL(T) no browser, JavaScript, CSS, Java
+componentes: box/tab/panel so recebem componentes; form e table recebem varios campos; toolsbar so recebe button; chart nao recebe campos
+regras: aplicacao e pagina criadas antes no Application Builder / Page Builder; gravar antes de fechar
+praticas: -
+estado: ok; texto duplicado com 9.2; ligacao para documento SharePoint interno (services.nosi.cv) nao acessivel; referencia cruzada partida ("Erro! A origem da referencia nao foi encontrada")
+
+@1025
+versao: v1+v2
+tema: design de paginas no gerador
+conceitos: igual a 9.1 (linhas, colunas, drop, botoes duplicar/propriedades/eliminar/arrastar, restricoes por componente); esquema de funcionamento detalhado (figura)
+tecnologias: -
+componentes: idem 9.1
+regras: idem 9.1
+praticas: -
+estado: duplicado parcial de 9.1 (#1024)
+
+@1026
+versao: v1+v2
+tema: copiar componentes de outra pagina (COPY FROM)
+conceitos: pagina do tipo "Component" guarda componentes padrao reutilizaveis; nao pode ser executada nem constar do menu; separador COPY FROM nas propriedades do componente
+tecnologias: -
+componentes: separatorList (exemplo), COPY FROM
+regras: paginas Component nao sao executaveis nem entram no menu
+praticas: centralizar componentes repetidos numa pagina Component (padronizacao e upgrade)
+estado: ok
+
+@1027
+versao: v1+v2
+tema: propriedades de componentes e campos
+conceitos: separadores STYLE (ID, Class, estilo), XSL (desmarcar Default permite editar o XSL do componente mas bloqueia a edicao de propriedades), COPY FROM, PROPERTIES; nos campos: RULES (eventos JavaScript/Ajax)
+tecnologias: XSL, CSS, JavaScript
+componentes: todos
+regras: XSL personalizado (Default desmarcado) impede editar as propriedades no gerador
+praticas: preferir propriedades/RULES a XSL personalizado [inferido]
+estado: ok; promete lista de propriedades que esta em 9.5
+
+@1044
+versao: v1+v2
+tema: propriedades comuns dos campos
+conceitos: Change (recarrega a pagina enviando os campos), Disabled, Field Size, Is Key (valor enviado nos botoes de tabela), Java Type, Label, Maxlength, Placeholder, Readonly, Required (*), Right, Table (SeparatorList), Tag (nome no Java), Value Parser (hiperligacao para selecionar linha quando aberta por Lookup); cada campo (exceto Button) gera get/set no Model; Radio so em Table/Form List; Coordinates so com Map Viewer; Radio List e Checkbox List nao aplicaveis ao Form List; em View os campos so fazem output
+tecnologias: -
+componentes: campos em geral
+regras: Tag define o nome Java; restricoes de campo por componente acima
+praticas: -
+estado: ok; ligacao para documento SharePoint interno nao acessivel
+
+@1029
+versao: v1+v2 (estrutura gerada confirmada nos XSL_MODEL/VIEW/CONTROLLER dos dois ramos)
+tema: codigo gerado - exemplo
+conceitos: ao gravar a pagina e criado o package nosi.webapps.<app>.pages.<pagina> com PageModel (extends Model, @RParam p_<tag>), PageView (extends View; campos Field, IGRPForm, IGRPToolsBar, IGRPButton; render/setModel) e PageController (extends Controller; actionIndex com model.load(), view, renderView); cada botao gera action<Tag>; areas reservadas packages_import, index, <acao>, custom_actions; bloco #gen-example com exemplos; retorno redirect(app, pagina, acao, this.queryString())
+tecnologias: Java
+componentes: Model, View, Controller, IGRPForm, IGRPToolsBar, IGRPButton, TextField
+regras: o programador so altera as tres areas reservadas; restantes areas do PageController nao devem ser alteradas; actionIndex poe a informacao no ecra
+praticas: explorar Model/View gerados para conhecer os metodos de manipulacao
+estado: ok
+
+@1115
+versao: v1+v2 (Blockly e IGRP.blockly.java.xsl presentes nos dois ramos)
+tema: IGRP Blockly (separador BLOCKLY)
+conceitos: integracao Google Blockly que gera Java no Controller; workspace com bloco inicial com as acoes do DESIGN; botoes de refresh (apos mudar campos), salvaguarda e restauro; blocos padrao Logic, Loops, Math, Text, Variables; 8 categorias personalizadas: Script Inicial, Core, DAO, inserir, editar, listar, apagar (DAO e CRUD so com classes DAO mapeadas); o codigo gerado nao pode ser alterado no Controller, so na workspace
+tecnologias: Google Blockly, Java
+componentes: Blockly
+regras: codigo gerado pelo Blockly so se altera/remove na workspace; conhecer o design da pagina antes de programar em blocos
+praticas: -
+estado: ok; [PROJ v2.1.1] o codigo Blockly e escrito antes da area preservada - nao combinar Blockly com return e codigo manual na mesma acao
+
+@1126
+versao: v1+v2
+tema: JavaScript e CSS personalizados
+conceitos: RULES cobrem a maioria dos eventos; separador STYLE (ID, Class, Inline Style); separadores JS e CSS do gerador com inclusao de URLs de ficheiros (ex.: qrcode.min.js da biblioteca igrpweb) e codigo proprio; identificar componentes por ID
+tecnologias: JavaScript, CSS
+componentes: box (exemplo)
+regras: definir ID no componente para o referenciar no JS/CSS da pagina
+praticas: preferir RULES; JS/CSS proprio pelos separadores do gerador
+estado: ok; [PROJ v2.1.1] o JS/CSS fica embutido no XSL gerado (nao editar o XSL a mao)
+
+@1008
+versao: v1+v2
+tema: IGRP Studio - apresentacao
+conceitos: componentes do Studio: Page Builder (interface, importar paginas, gerar CRUD, gerar DAO, novas paginas), BPMN Designer, Report Designer (DataSource: Pagina, Etapa, Processo, Objeto ou Query), Application Builder (pesquisar/criar/alterar/eliminar aplicacoes)
+tecnologias: -
+componentes: Page Builder, BPMN Designer, Report Designer, Application Builder
+regras: -
+praticas: -
+estado: ok
+
+@1005
+versao: v1+v2
+tema: pagina de login e Home
+conceitos: varias aplicacoes no mesmo espaco com Single-Sign-On; autenticacao por ActiveDirectory, tabela de utilizadores ou federacao de identidade; URL local webapps?r=igrp/login/login; utilizador demo; Home com Tutorial IGRP, IGRP Studio e aplicacoes (Minhas Aplicacoes / Outras); Studio so para utilizadores com privilegios de desenvolvedor; Home Page Builder com Application Builder, Access Management, SQL Tool, Domain Management; top menu de workflow (Mapa de Processos, Minhas Tarefas); Minha Conta (palavra-passe, idioma, perfil)
+tecnologias: SSO, AD
+componentes: login, Home, Studio
+regras: acesso ao Studio depende de privilegios de desenvolvedor
+praticas: [ENG] remover/alterar o utilizador demo fora de desenvolvimento
+estado: ok
+
+@1009
+versao: v1+v2
+tema: partilha geral entre aplicacoes
+conceitos: partilhar recursos (ex.: paginas) da aplicacao de origem para a de destino; o recurso fica disponivel no campo Action de botoes/lookup e por URL
+tecnologias: -
+componentes: Partilha geral (Studio)
+regras: -
+praticas: reutilizar paginas entre aplicacoes em vez de as recriar
+estado: ok
+
+@1010
+versao: v1+v2
+tema: SQL Tools
+conceitos: testar queries escolhendo aplicacao e ligacao; resultado em tabela dinamica
+tecnologias: SQL
+componentes: SQL Tool
+regras: -
+praticas: testar queries antes de as usar no codigo
+estado: ok
+
+@1011
+versao: v1+v2
+tema: CRUD/DAO Generator
+conceitos: CRUD Generator gera duas paginas por tabela (listagem e formulario) com abordagem por query; escolher aplicacao, ligacao e schema; DAO Generator gera classes DAO (get/set) pelas mesmas etapas, opcao GERAR DAO
+tecnologias: SQL, Hibernate
+componentes: CRUD Generator, DAO Generator
+regras: -
+praticas: util para aprendizagem
+estado: ok; [PROJ v2.1.1] gerar de novo o CRUD da mesma tabela substitui as paginas sem preservar areas; rever DAOs gerados
+
+@1012
+versao: v1+v2
+tema: gestao de dominios
+conceitos: dominios padronizam valores (nome/valor) partilhaveis entre aplicacoes; dominio publico usavel por todas mas so alteravel pela aplicacao que o criou; usar em combobox/radiolist (checkboxlist possivel); Core.findDomainByCode(nome[,app]), Core.findDomainDescByKey(nome,chave[,app])
+tecnologias: -
+componentes: Dominio, combobox, radiolist, checkboxlist
+regras: dominio publico so e alterado pela aplicacao criadora
+praticas: usar dominios para listas pequenas de valores em vez de tabelas
+estado: ok; exemplo final "this.manifestacao.SetValue(...remove(\"SEG\"))" com gralhas (SetValue, manfiestacao) e semantica duvidosa
+
+@1013
+versao: v1+v2
+tema: gestao de tipo de documento
+conceitos: tipos de documento (aplicacao, nome, codigo, descricao) usados como Input/Output numa etapa BPMN; associacao na etapa (tab Forms, lookup Associar Documentos, obrigatorio); associacao de Report a etapa
+tecnologias: BPMN
+componentes: Tipo de documento, etapa
+regras: documentos de upload de processo sao configurados separadamente da pagina da etapa
+praticas: -
+estado: ok
+
+@1020
+versao: v1+v2 (conceito); opcoes External/Custom dad ligadas ao modelo de instancias
+tema: criacao de aplicacao
+conceitos: Nome (alteravel), Codigo/dad (unico, nao alteravel), External, Host/Custom dad: Custom dad cria WAR a parte (outra instancia), Externo cria JAR das classes fora do WAR; Application Builder: editar, ligacoes de BD, exportar, importar; aplicacao desativada fica inacessivel e o codigo nao pode ser reutilizado
+tecnologias: WAR/JAR
+componentes: Application Builder
+regras: codigo da aplicacao e definitivo; desativar nao liberta o codigo
+praticas: -
+estado: ok; "External" descrito como inativo e ao mesmo tempo usado na tabela (inconsistente)
+
+@1021
+versao: v1+v2
+tema: criacao de pagina
+conceitos: Title (alteravel), Code (unico, nao alteravel), Enable, Publico (chamavel por qualquer aplicacao), Application, Module (so organizacao), Home Page, Create menu (desligar para paginas de novo/inserir/lookup), Componente (so sem menu; nao gera classes MVC, so XML/XSL/JSON); cada pagina = package com 3 classes; sem Home Page ou sem codigo gerado a aplicacao/pagina nao executa
+tecnologias: -
+componentes: Page Builder, File editor
+regras: codigo de pagina unico e definitivo; pagina sem conteudo gerado nao executa
+praticas: desativar Create menu em paginas auxiliares
+estado: ok
+
+@1022
+versao: v1+v2
+tema: importar script SQL
+conceitos: importar DDL/script para criar objetos na BD
+tecnologias: SQL
+componentes: Import
+regras: -
+praticas: -
+estado: incompleto (so o script de exemplo; sintaxe auto_increment e MySQL/H2)
+
+@1023
+versao: v1+v2
+tema: exportar e importar aplicacao
+conceitos: exportar a partir do Application Builder escolhendo funcionalidades e ficheiros -> ficheiro JAR; importar no Studio (Import) com separadores aplicacao, livrarias externas, script SQL, imagens; usado para partilha e passagem entre ambientes (desenvolvimento, teste, producao)
+tecnologias: JAR
+componentes: Application Builder, Import
+regras: importar no separador correto (ficheiro errado pode causar problemas no servidor/Studio)
+praticas: ambientes distintos para desenvolvimento, teste e producao
+estado: ok
+
+@1014
+versao: v1+v2
+tema: configuracao de base de dados da aplicacao
+conceitos: Hibernate/JPA; cada aplicacao pode usar varias BD (oracle, postgresql, mysql, sqlserver, h2); Application Builder > Configurar Base de Dados: tipo, nome da ligacao (<app>_<bd>_<n>), URL, driver, utilizador, password, testar e gravar; ligacao padrao usada quando nao se indica ligacao; ficheiro <ligacao>.<aplicacao>.cfg.xml no File editor para mapear classes DAO
+tecnologias: Hibernate, JDBC (Oracle, PostgreSQL, MySQL, SQL Server, H2)
+componentes: Application Builder, ligacoes, cfg.xml
+regras: a ligacao padrao aplica-se quando nao se especifica ligacao
+praticas: indicar a ligacao explicitamente no codigo [PROJ]
+estado: ok; ligacao para documento SharePoint interno nao acessivel
+
+@1015
+versao: v1+v2
+tema: File Editor
+conceitos: editor web de packages, classes e ficheiros de configuracao da aplicacao; gravar explicitamente; menu de contexto por ficheiro
+tecnologias: -
+componentes: File Editor
+regras: alteracoes nao gravadas perdem-se
+praticas: -
+estado: ok (texto repetido)
+
+@1110
+versao: v1 (ferramentas Eclipse/JPA Facets); conceito de mapeamento v1+v2
+tema: mapeamento DAO com Eclipse (JPA Entities from Tables)
+conceitos: mapear tabelas em classes Java num package dao da aplicacao; ligacao de BD no Eclipse (driver PostgreSQL); JPA facet; gerar entidades; chave primaria "auto"; superclasse BaseActiveRecord<T> (substituir T pelo nome da classe); copiar a lista de classes do persistence.xml para <session-factory> do ficheiro <ligacao>.<app>.cfg.xml criado pelo Application Builder
+tecnologias: Eclipse, JPA, Hibernate, PostgreSQL JDBC 42.2.5
+componentes: BaseActiveRecord, cfg.xml da ligacao, package dao
+regras: classes DAO estendem BaseActiveRecord<Classe> e sao listadas como <mapping class> no cfg.xml da ligacao
+praticas: manter Associations fetch por defeito salvo conhecimento de ORM
+estado: v1 (ferramenta); package indicado como "nosi.base.activeRecord" mas o real e nosi.base.ActiveRecord [CODIGO]; em v1/v2 o CRUD/DAO Generator do Studio faz isto automaticamente (#1011)
+
+@1111
+versao: v1 (Eclipse JBoss Tools); conceito v1+v2
+tema: mapeamento DAO com JBoss/Hibernate Tools
+conceitos: Hibernate Code Generation (Domain code, DAO code); reveng.xml; copiar classes para session-factory do cfg.xml; import nosi.base.ActiveRecord.BaseActiveRecord; extends BaseActiveRecord<Classe> implements Serializable
+tecnologias: Eclipse, JBoss Tools, Hibernate Tools
+componentes: BaseActiveRecord
+regras: idem 15.1
+praticas: -
+estado: v1 (ferramenta); ok
+
+@1112
+versao: v1 (exemplo com javax.persistence e javax.xml.bind); conceito v1+v2
+tema: mapeamento DAO com NetBeans
+conceitos: Entity Classes from Database; tipo de colecao List; classe estende BaseActiveRecord e muda o package para nosi.webapps.<app>.dao; listar no cfg.xml
+tecnologias: NetBeans, JPA (javax.persistence), JAXB (javax.xml.bind)
+componentes: BaseActiveRecord
+regras: idem 15.1
+praticas: -
+estado: contradiz 18.7 (recomenda Set e EAGER; aqui List/LAZY por defeito); exemplo usa javax.xml.bind (verificar disponibilidade em v2)
+
+@1142
+versao: v1+v2 (conceptual)
+tema: conceitos Hibernate, ORM e JPA
+conceitos: JPA como especificacao; Hibernate como implementacao; mapeamento por anotacoes preferido a XML; entidades
+tecnologias: Hibernate, JPA, JDBC
+componentes: -
+regras: -
+praticas: -
+estado: ok (generico; ligacoes externas)
+
+@1113
+versao: v1+v2 (conceito); ferramentas Eclipse v1
+tema: uso de Hibernate e JPA no igrpweb
+conceitos: vantagens JPA (independencia de BD, cache, etc.); o igrpweb usa duas bases de dados: uma para o framework e outra(s) para as aplicacoes; Hibernate Tools no Eclipse; drivers MySQL 8.0.15 / PostgreSQL 42.2.5
+tecnologias: Hibernate, JPA, Eclipse Hibernate Tools
+componentes: -
+regras: separar BD do framework e BD das aplicacoes
+praticas: -
+estado: incompleto (secao 5 "Interagindo com base de dados utilizando" sem conteudo); versoes de drivers antigas
+
+@1143
+versao: v1+v2
+tema: anotacoes Hibernate
+conceitos: @Entity, @Table, @Id, @Column (default: nome da classe/propriedade), @CreationTimestamp, @UpdateTimestamp, @Immutable; anotacoes JPA em javax.persistence; sem ficheiro hbm
+tecnologias: Hibernate, JPA 2
+componentes: -
+regras: anotacoes JPA do pacote javax.persistence (valido em v1 e v2, que mantem javax.persistence com Hibernate 5.6) [CODIGO]
+praticas: anotacoes nos campos (#1132)
+estado: ok; numeracao interna salta passos (1, 3)
+
+@1133
+versao: v1+v2 (Permission/hasMenuPagPermition e isPermission presentes nos dois ramos)
+tema: gestao de acessos (visao geral)
+conceitos: sessoes e privilegios implementados no framework; administrador gere menus e transactions atribuidos hierarquicamente a Organicas > Perfis > Utilizadores; acesso no Studio (desenvolvimento) e pelo menu da aplicacao em producao (sem Studio); fluxo: criar organica, perfil, convidar utilizador
+tecnologias: -
+componentes: Gestao de Acesso, Organica, Perfil, Utilizador, Menu, Transaction
+regras: em producao a gestao de acesso e feita pelo administrador atraves do menu da aplicacao
+praticas: o programador foca-se no negocio; privilegios configurados, nao programados
+estado: ok; texto repetido; [CODIGO] lista fixa de rotas sem login em PagesScapePermission (verificar em auditoria)
+
+@1134
+versao: v1+v2
+tema: gestao de organicas
+conceitos: organica = entidade/departamento; nome, codigo, aplicacao; estado; atribuir menus, transactions e processos; Core.getCurrentUser().getOrganica(), getCurrentOrganization(), getCurrentOrganizationCode(), findOrganizationByCode/ById; Organization.getId/getCode/getName/getStatus/getProfilesType
+tecnologias: -
+componentes: Organization
+regras: transactions/menus atribuem-se primeiro a organica
+praticas: -
+estado: ok
+
+@1135
+versao: v1+v2
+tema: gestao de menus
+conceitos: menu = pagina acessivel no menu lateral; criado com "Create menu" na pagina ou na Gestao de Menu; hierarquia pai/filho; aplicacao, pagina alvo, nome, menu pai, posicao, target; atribuir a organica e depois a perfil (perfil so ve menus da sua organica)
+tecnologias: -
+componentes: Menu
+regras: menus de perfil limitados aos da organica
+praticas: -
+estado: ok; referencia cruzada partida ("Erro! A origem da referencia...")
+
+@1136
+versao: v1+v2
+tema: gestao de perfis
+conceitos: perfis por organica; perfil pai acompanha o filho; pagina inicial do perfil; perfis so herdam menus/transactions da organica; convidar utilizadores ja registados; um utilizador pode ter varios perfis mas so um ativo por sessao (mudar em Minha Conta); Core.getCurrentProfile(), getCurrentProfileCode(), findProfileByCode/ById; ProfileType
+tecnologias: -
+componentes: ProfileType
+regras: associar permissoes a perfis; associacao direta a utilizadores so excecionalmente; definir primeiro o ambito da organica, depois dos perfis
+praticas: permissoes por perfil (nao por utilizador)
+estado: ok
+
+@1137
+versao: v1+v2
+tema: gestao de utilizadores
+conceitos: adicionar utilizador (login no igrpweb) vs convidar para aplicacao (SysAdmin); atribuir menus/transactions/etapas; Core.getCurrentUser(), findUserById/ByUsername/ByEmail; User.getId/getName/getEmail/getUser_name/getProfile/getOrganica/getAplicacao/getStatus
+tecnologias: -
+componentes: User
+regras: utilizador so acede a uma aplicacao depois de convidado
+praticas: -
+estado: ok
+
+@1138
+versao: v1+v2
+tema: gestao de transactions
+conceitos: transaction = botao que nao deve estar acessivel a todos; definido como transaction nas propriedades do botao no gerador e atribuido na Gestao de Acesso a organica, depois a perfis/utilizadores
+tecnologias: -
+componentes: Transaction, botao
+regras: botoes sensiveis (ex.: eliminar) definidos como transaction e atribuidos so a quem deve executar
+praticas: [ENG] validar tambem no servidor as acoes sensiveis (Permission.isPermission) e nao confiar so na visibilidade do botao
+estado: ok
+
+@1099
+versao: v1+v2 (RULES, RemoteXML e remoteComboBoxXml presentes nos dois ramos)
+tema: Rules - eventos JavaScript e Ajax
+conceitos: separador RULES do campo; propriedades Name, Event (Blur, Change, Click, Keyup, Load), Condition (Equals, Differs, Contains, Checked, Unchecked, Greater than, Between, Not Null, Null, Start/End With e negacoes, RegExp, Not RegExp, Custom com {this}/{tag}), Value, Opposite Rule, Targets, Action (Show, Show Icon, Hide, Hide Icon, Disable, Enable, Required, Not Required, Clean Value, Readonly, Not Readonly, Remote, Remote Combo Box, Remote List, Notify + Message Type/Message), Procedure (metodo action<Procedure> em custom_actions), Request fields (recebidos como p_<campo>); varias combinacoes Action/Targets por regra (adicionar ao SeparatorList antes de gravar)
+tecnologias: JavaScript, Ajax
+componentes: RULES, campos
+regras: metodo remoto = action + Procedure, programado em custom_actions; parametros p_<tag>
+praticas: usar RULES antes de JS proprio; alternativa: ID no STYLE + funcoes no separador JS
+estado: ok (atualizado 2026; exemplos Custom/RegExp recentes)
+
+@1100
+versao: v1+v2
+tema: Remote/Ajax
+conceitos: Action Remote preenche campos; metodo action<Procedure> em custom_actions recebe p_<request field>; resposta XML com this.format = Response.FORMAT_XML e renderView(String); Core.remoteXml().addPropertie(tag,valor).addMessage(tipo,texto).build() (tipos success, info, warning, error); Core.remoteComboBoxXml(Map, view.campo, selectedIds[, prompt]) e (QueryInterface, tag, selectedIds, prompt)
+tecnologias: Ajax, XML
+componentes: RemoteXML, Response
+regras: resposta remota em XML com FORMAT_XML
+praticas: usar o builder RemoteXML em vez de XML manual
+estado: ok com erros de sintaxe nos exemplos (";" antes de .addPropertie, parenteses a mais)
+
+@1101
+versao: v1+v2
+tema: Remote Combo Box
+conceitos: evento change no combobox; Action Remote Combo Box; Targets; Procedure; Request Fields; preencher via DAO (Core.toMap + Core.remoteComboBoxXml) ou query
+tecnologias: Ajax
+componentes: combobox
+regras: idem 13.1
+praticas: -
+estado: exemplos com defeitos: marcador "custom actions " com espaco (o marcador real e custom_actions); nome de Procedure inconsistente (combo vs remoteEmployee); query concatena p_department no SQL [ENG: usar parametros nomeados]
+
+@1102
+versao: v1+v2
+tema: Remote List
+conceitos: Action Remote List preenche uma tabela; model.loadTable_<tabela>(Core.query(...).where(...).addInt(...)); variante DAO preenche lista de linhas Model.Table_<x> e model.setTable_<x>
+tecnologias: Ajax
+componentes: table, combobox
+regras: idem 13.1
+praticas: parametros nomeados na query
+estado: exemplo DAO nao compila (variavel empFilter fora de ambito)
+
+@1103
+versao: v1+v2
+tema: Remote com Switch/Checkbox em tabela
+conceitos: checkbox em tabela = dois valores: <tag> (id da linha) e <tag>_check (estado); marcado quando iguais; parametros p_<tag> e p_<tag>_check ("true"/"false"); resposta so com mensagem; em erro o campo volta ao estado inicial
+tecnologias: Ajax
+componentes: table, checkbox/switch
+regras: preencher <tag> com o id e <tag>_check com o id (marcado) ou outro valor
+praticas: devolver mensagem de sucesso/erro
+estado: ok
+
+@1104
+versao: v1+v2
+tema: Remote com Radio em tabela
+conceitos: radio em tabela = <tag> (id) e <tag>_check; transacao Hibernate com keepConnection num metodo auxiliar em custom_actions
+tecnologias: Ajax, Hibernate
+componentes: table, radio
+regras: idem 13.5
+praticas: metodos auxiliares privados em custom_actions
+estado: ok
+
+@1108
+versao: v1 (exemplo usa javax.xml.bind.JAXB); v2 requer jakarta.xml.bind [CODIGO]
+tema: pagina igrpweb como webservice
+conceitos: pagina publica (Publico) chamada pelo seu link; codigo no actionIndex; devolve XML/JSON com this.format = Response.FORMAT_XML ou FORMAT_JSON e renderView(String); classes de dados anotadas para JAXB
+tecnologias: JAXB, XML, JSON
+componentes: pagina publica, Response
+regras: a pagina tem de ser publica para ser chamada de fora da aplicacao
+praticas: [ENG] proteger servicos publicos (autenticacao/validacao) quando expoem dados
+estado: risco: manda alterar com o File Editor a parte protegida do codigo (comentar view.setModel/renderView); essa alteracao e perdida na proxima gravacao no gerador; javax.xml.bind nao existe em v2 (usar jakarta.xml.bind)
+
+@1107
+versao: v1 (javax.ws.rs); v2 usa jakarta.ws.rs [CODIGO]
+tema: servicos REST
+conceitos: JAX-RS com Jersey (server/client); package nosi.webapps.<app>.restapi com classe Configuration que regista os pacotes; recursos GET/POST/PUT/DELETE; consumir com cliente Jersey (anotacao @Expose em DAO para Gson); partilha de paginas entre aplicacoes; paginas publicas com link hostname/dad
+tecnologias: JAX-RS, Jersey, Gson
+componentes: restapi, paginas publicas
+regras: -
+praticas: -
+estado: incompleto (so topicos; codigo em imagens); em v2 substituir ClientConfig por ClientBuilder (#1223)
+
+@1109
+versao: v1 (javax.jws); v2 jakarta.jws [CODIGO]
+tema: servicos SOAP
+conceitos: SOAP (envelope, header, body), WSDL, JAX-WS (@WebService, @WebMethod, @WebParam, @WebResult), JAXB; package soapservices.server/client; geracao de cliente pelo IDE
+tecnologias: JAX-WS, JAXB, WSDL
+componentes: -
+regras: -
+praticas: -
+estado: incompleto (so topicos; codigo em imagens)
+
+@1205
+versao: v1 (procedimento Eclipse/Tomcat; motor Activiti externo activiti-rest); conceito v1+v2
+tema: instalacao do Activiti para o BPMN Designer
+conceitos: Activiti (motor BPMN Java) instalado como projeto separado activiti-rest (repositorio NOSiCode-CV/activiti), BD propria db_activiti configurada em db_properties; teste em /activiti-rest/service/repository/deployments; credenciais de demonstracao kermit; depois criar processo no BPMN Designer
+tecnologias: Activiti, PostgreSQL, Eclipse, Tomcat
+componentes: activiti-rest, BPMN Designer
+regras: o BPMN Designer depende de um motor Activiti acessivel
+praticas: [ENG] alterar credenciais de demonstracao do motor
+estado: v1 (ferramentas); ligacao de clone aponta para repositorio pessoal; versoes Activiti BPMN 6.0.0 (v1) vs converter 7.1.0.M6 (v2) [CODIGO]
+
+@1016
+versao: v1+v2
+tema: processos BPMN no igrpweb
+conceitos: processo = objetivo, etapas sequenciais, inputs, outputs, resultado; Mapa de processos; Minhas Tarefas (lista, monitorizacao por coordenacao, estatisticas); Consulta Processo; exemplo "Nha Feria": aplicacao, id/nome do processo, Executable; user tasks associadas a paginas (pagina marcada como "processo" no gerador); gateway com default flow e condicao; acesso a etapas: organica > perfis > utilizadores; iniciar processo (so com permissao); assumir, libertar, ver detalhe e executar tarefa
+tecnologias: BPMN 2.0, Activiti
+componentes: BPMN Designer, Mapa de processos, Minhas Tarefas
+regras: pagina associada a etapa deve estar marcada como de processo; acesso as etapas atribuido como menus/transactions
+praticas: rever a gestao de acessos antes de publicar processos
+estado: ok
+
+@1017
+versao: v1+v2
+tema: BPMN - exemplo pratico
+conceitos: topicos: dominio, criar processo, pagina de registo, preencher model com dados de etapa (TaskValidacaoController), ler parametros de processo/etapa (p_justificacao), injetar variavel na etapa
+tecnologias: BPMN
+componentes: Task<Etapa>Controller
+regras: -
+praticas: -
+estado: incompleto (so titulos; codigo em imagens)
+
+@1018
+versao: v1+v2
+tema: processos BPMN com tabs
+conceitos: todas as etapas numa pagina com tabs e classe Helper (switch-case) para mostrar/ocultar; mapa de processos; distribuicao de tarefas (disponiveis, minhas, gerir - transaction para coordenadores; transferir, alterar prioridade); consulta de processos
+tecnologias: BPMN
+componentes: tab, box, Helper
+regras: nao usar "task" no id da etapa (o igrpweb acrescenta-o); radio-list do tipo String em processos; evitar tags repetidas entre tabs; nao atribuir tarefa ao perfil atualmente autenticado
+praticas: nomes de campos associados a etapa (ex.: email-pedido); paginas criadas em separado e copiadas para os tabs
+estado: ok (codigo em imagens)
+
+@1019
+versao: v1+v2 (APIs confirmadas nos dois ramos)
+tema: BPMN - funcoes uteis
+conceitos: Model.loadFromTask (carrega dados de etapa anterior com componentes de nomes iguais); actionSave = botao "Seguinte"; allowTask (true/false controla quem ve a tarefa); Core.getProcessDefinitionByProcessKey(chave); Core.startProcess(chave, id, params) com parametros prefixo x_; inputDocsHasErrors() valida documentos de input; lista TipoDocumentoEtapa para documentos de output; Core.getTaskHistory(idEtapa) devolve os dados da ultima execucao da etapa
+tecnologias: Activiti
+componentes: Core, BPMNConstants, TipoDocumentoEtapa
+regras: parametros de processo com prefixo x_
+praticas: validar documentos de input antes de executar codigo da etapa
+estado: ok (exemplos em imagens)
+
+@1140
+versao: v1+v2
+tema: BPMN - dicas de design
+conceitos: tarefas paralelas (gateway paralelo) evitam logica para chamar etapas em modal
+tecnologias: BPMN
+componentes: -
+regras: -
+praticas: usar tarefas paralelas em vez de logica ad-hoc
+estado: incompleto (so uma dica; figura)
+
+@1141
+versao: v1+v2
+tema: BPMN - dicas de programacao
+conceitos: mostrar etapas anteriores num Iframe: model.setIframe_1_src(Core.getIGRPLink("igrp","Detalhes_tarefas","index&target=_blank&"+BPMNConstants.PRM_TASK_ID+"="+Core.getTaskHistory("Task2").getId()))
+tecnologias: -
+componentes: Iframe, BPMNConstants
+regras: -
+praticas: -
+estado: ok (curto)
+
+@1105
+versao: v1+v2
+tema: Report Designer - apresentacao
+conceitos: ferramenta do Studio para desenhar, parametrizar e gerar documentos; aplicacao, Reports, Head, Body, Gravar, Preview; Data Source; invocar por link ou botao; Core.getLinkReport(codigo[, Report]); Core.getLinkReportPDF(codigo, new Report().addParam(...)); em tabela: linha.setVer("igrp_studio","WebReport","get-report").addParam("code",...).addParam("p_id",...)
+tecnologias: HTML, PDF
+componentes: Report Designer, nosi.core.webapp.Report
+regras: -
+praticas: -
+estado: ok; exemplos de link/botao so com titulos; ciclo for truncado no texto
+
+@1106
+versao: v1+v2
+tema: Report Designer - exemplos praticos
+conceitos: criar report (titulo, codigo unico); Data Source por ligacao da aplicacao com 4 tipos: Objeto (tabela), Etapa (processo), Query, Pagina; "Datasource App"; submenus default_form_report (aplicacao, organica, utilizador, perfil, data), form (colunas [NOME]) e table (tabela, lista de marcas, lista numerada); chaves para filtrar; chamar com Core.getLinkReport("codigo", new Report().addParam("chave","?")) num botao
+tecnologias: SQL, HTML
+componentes: Report Designer, Data Source, Report
+regras: codigo de report unico; definir chaves para restringir dados
+praticas: Data Source Query para controlo exato dos dados
+estado: ok
+
+@1200
+versao: v1+v2
+tema: report em HTML usando classes
+conceitos: modelo Java proprio + template HTML com substituicao de marcadores ({header}, {user_name}, ...); devolver com this.format = Response.FORMAT_HTML e renderView(String)
+tecnologias: HTML, Java
+componentes: Response
+regras: -
+praticas: [ENG] escapar valores inseridos no HTML (risco de XSS)
+estado: exemplo especifico de um projeto (classes Sis*); codigo colocado no bloco #gen-example em vez de area start-code (exemplo incorreto)
+
+@1209
+versao: v1+v2
+tema: Report Designer - funcoes uteis
+conceitos: Core.getLinkReport(codigo, Report) gera contra prova (uuid) obtida em resp.getContent(); Report.setContraprova(...); Core.getLinkReportPDF; Core.getLinkContraProva / getLinkContraProvaPDF / getRepContraProvaPDF para consultar report gerado; envio em anexo com Attachment e Core.mail_v2
+tecnologias: PDF, email
+componentes: Report, Attachment, Core.mail_v2
+regras: -
+praticas: usar contra prova para verificacao de documentos emitidos
+estado: ok; exemplo com enderecos de email reais e sintaxe invalida (aspas)
+
+@1222
+versao: v1+v2
+tema: report HTML com footer modificado
+conceitos: footer com QR code da contra prova (link igrp_studio/web-report/get-contraprova&ctprov=...); atributos footer/no/tag no HTML do report; CSS de pagina
+tecnologias: HTML, CSS
+componentes: Report Designer
+regras: -
+praticas: -
+estado: ok (exemplo especifico)
+
+@1194
+versao: v1 (Eclipse/EGit; template); conceito v1+v2
+tema: alojar o projeto no GitHub
+conceitos: criar repositorio; adicionar remote e push a partir do Eclipse (Git Repositories)
+tecnologias: Git, GitHub, Eclipse
+componentes: -
+regras: -
+praticas: versionar o projeto num repositorio remoto
+estado: v1 (ferramenta); passo 9 refere o GitLab (copiado do 3.1.2); numeracao de passos salta (6, 10)
+
+@1006
+versao: v1 (Eclipse); conceito v1+v2
+tema: alojar e partilhar no GitLab NOSi
+conceitos: git.nosi.cv com credenciais NOSi; membros e privilegios (Settings > Members); importar projeto partilhado; colaboradores fazem commit/pull das suas paginas
+tecnologias: Git, GitLab
+componentes: -
+regras: -
+praticas: partilhar repositorio com membros e privilegios definidos
+estado: ok (especifico do GitLab interno NOSi)
+
+@1007
+versao: v1+v2 (mecanismo de colaboracao); ferramenta SVN/Eclipse v1
+tema: controlo de versoes (fluxo) e Subversion
+conceitos: criar pagina gera Page.json no servidor local e regista a pagina na BD partilhada (visivel aos outros); ao gravar sao gerados Model, View, Controller, XML e XSL so no servidor local; commit + push enviam-nos; os outros fazem pull e, como a pagina nao esta compilada, devem abri-la no editor de paginas e gravar para compilar; Subversive SVN no Eclipse; Sourcetree
+tecnologias: SVN, Git, Eclipse
+componentes: Page.json, BD partilhada
+regras: apos pull de paginas, abrir no gerador e gravar para compilar
+praticas: versionar todos os artefactos da pagina (JSON/XML/XSL/Java)
+estado: ok; mistura SVN com terminologia Git (push/pull); texto final truncado
+
+@1201
+versao: v1+v2
+tema: resolver conflitos Git
+conceitos: conflitos de merge; marcadores <<<<<<< ======= >>>>>>>; git status; resolver e commit
+tecnologias: Git
+componentes: -
+regras: -
+praticas: trabalhar em ramos isolados
+estado: ok (generico)
+
+@1114
+versao: v1+v2
+tema: reportar issues do framework
+conceitos: issue tracker em git.nosi.cv/igrp-web/igrp-web-framework/issues (credenciais AD); verificar duplicados; template Bug com resumo, passos, ambiente, comportamento, logs, info git, possiveis correcoes
+tecnologias: GitLab
+componentes: -
+regras: verificar se a issue ja existe antes de abrir
+praticas: issues com passos de reproducao e ambiente
+estado: ok; texto repetido; o repositorio publico atual e github.com/NOSiCode-CV/IGRP-Framework [REPO README]
+
+@1124
+versao: v1+v2
+tema: passagem de aplicacoes entre ambientes
+conceitos: exportar (JAR) e importar (igual a 5.4); configurar a BD da aplicacao no ambiente destino (tipo, nome da ligacao, URL, driver, utilizador, password, testar e gravar; ligacao padrao); <ligacao>.<app>.cfg.xml com o mapeamento das classes DAO; dica: tester nao corre scripts porque DAO + cfg.xml atualizam a BD
+tecnologias: JAR, Hibernate
+componentes: Application Builder, File editor, cfg.xml
+regras: configurar a ligacao de BD apos importar
+praticas: ambientes separados (dev/teste/producao)
+estado: duplica 5.4 (#1023); a dica de atualizacao automatica da BD depende de hbm2ddl.auto=update - [PROJ v2.1.1] risco de alteracoes nao controladas; [ENG] preferir migracoes versionadas (Flyway ja usado pelo framework)
+
+@1047
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Calendar - configuracao
+conceitos: Header Views (botoes de navegacao), Views (formas de exibicao)
+tecnologias: -
+componentes: calendar
+regras: -
+praticas: -
+estado: quase vazio (so 2 propriedades; resto em imagem)
+
+@1210
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Calendar - Blockly
+conceitos: marcacoes com Title, Description (tooltip), Id, Calendar Start/End (data-hora), Color
+tecnologias: -
+componentes: calendar, Blockly
+regras: o separador T entre data e hora nao pode ser removido
+praticas: -
+estado: ok (codigo em imagem)
+
+@1048
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Carousel - configuracao
+conceitos: carousel como cabecalho com imagens; model.loadCarousel_1(Core.query(null, SELECT ... as carousel_1_label, ... as carousel_1_img))
+tecnologias: -
+componentes: carousel
+regras: aliases carousel_1_label / carousel_1_img
+praticas: -
+estado: ok; usa Core.query(null, ...) = ligacao do IGRP
+
+@1211
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Carousel - Blockly
+conceitos: upload de imagens numa tabela DAO e listagem no carousel
+tecnologias: -
+componentes: carousel, upload, Blockly
+regras: -
+praticas: -
+estado: ok (codigo em imagem)
+
+@1049
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Circle Stat Box - configuracao
+conceitos: Description, Link, Percent Text, Percent Value, Size, Target
+tecnologias: -
+componentes: circle stat box
+regras: -
+praticas: -
+estado: programacao sem conteudo
+
+@1212
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Circle Stat Box - Blockly
+conceitos: percentagem com filtros where/filter; arredondamento com Precision
+tecnologias: -
+componentes: circle stat box, Blockly
+regras: -
+praticas: -
+estado: ok (codigo em imagem)
+
+@1042
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Chart - configuracao e programacao
+conceitos: HasTitle, Label, Tag, Text, Title, Collapsible, Chart Type, Filter, Filter Type, Remote Filter; dados: lista de Pagina.Chart(eixoX, eixoY, valor) e model.setChart(lista)
+tecnologias: -
+componentes: chart
+regras: ordem dos parametros: eixo X, eixo Y, valor
+praticas: -
+estado: ok
+
+@1045
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Chart - exemplo pratico
+conceitos: dashboard com form + botao Custom Return que faz forward para actionIndex; graficos simples e multi-serie; stat/circle/small box
+tecnologias: -
+componentes: chart, form, button
+regras: -
+praticas: -
+estado: incompleto (codigo em imagem)
+
+@1123
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Chart - Blockly
+conceitos: graficos 2D/3D (ver o model); agrupar, estatistica (soma, media, max, min, contagem), filtros de nulos
+tecnologias: -
+componentes: chart, Blockly
+regras: -
+praticas: -
+estado: ok (codigo em imagem)
+
+@1035
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Form - configuracao
+conceitos: HasTitle, Collapsible, Collapsed
+tecnologias: -
+componentes: form
+regras: -
+praticas: -
+estado: ok (curto)
+
+@1036
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Form - programacao com DAO
+conceitos: parametro isEdit + id hidden (@RParam p_id) para editar; actionSave insert/update conforme id; forward em erro repoe os dados submetidos
+tecnologias: -
+componentes: form, hidden, button (submit)
+regras: id mapeado automaticamente para p_id
+praticas: usar forward em erro para manter o input
+estado: ok (chavetas por fechar no exemplo)
+
+@1037
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Form - programacao com query
+conceitos: model.load(query) com aliases iguais as tags; Core.insert/update(...).execute(); forward em erro
+tecnologias: -
+componentes: form
+regras: aliases das colunas = tags dos campos
+praticas: usar forward em erro
+estado: defeitos: SELECT concatena model.getId(); addInt('id=:id', ...) com nome de parametro errado
+
+@1116
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Form - Blockly
+conceitos: blocos para preencher (editar) e inserir/editar via DAO; codigo gerado no Controller
+tecnologias: -
+componentes: form, Blockly
+regras: -
+praticas: copiar o codigo gerado para a area start-code e editar ai
+estado: ok
+
+@1041
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Form-List - configuracao e programacao
+conceitos: campos sempre abertos; Filter, No Add, No Delete, Order Table; cada campo recebe IGRPSeparatorList.Pair; linhas Model.Formlist; ids eliminados em getP_formlist_del(); setLink('save&isEdit=true')
+tecnologias: -
+componentes: formlist
+regras: campos do formlist sao Pair (chave/valor)
+praticas: -
+estado: ok
+
+@1121
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Form-List - Blockly
+conceitos: listar e gravar form-list na mesma transacao do form (mutacao do bloco save); FK set.IdUser(); form-list ja tem id por linha
+tecnologias: -
+componentes: formlist, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1038
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Separator-List - configuracao e programacao
+conceitos: Dialog (formulario em modal), Order Table; linhas Model.Sep com campos Pair; <sep>_id da linha; getP_<sep>_edit() e getP_<sep>_del() indicam linhas editadas/eliminadas
+tecnologias: -
+componentes: separatorlist
+regras: tratar novas, editadas e eliminadas separadamente
+praticas: -
+estado: ok
+
+@1039
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Upload em Separator-List
+conceitos: botao save como submit ajax; Core.uploadMultiple('p_<tag>_fk') devolve List<UploadedFile>; Core.saveFile(bytes, nome, mime) devolve id do ficheiro
+tecnologias: -
+componentes: separatorlist, upload
+regras: -
+praticas: verificar file.getSize() > 0
+estado: ok (id fixo 227 no exemplo)
+
+@1040
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Separator-List dentro de Separator-List
+conceitos: listas aninhadas com <sep>_id e getP_<sep>_edit/_del por nivel
+tecnologias: -
+componentes: separatorlist
+regras: -
+praticas: -
+estado: ok
+
+@1120
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Separator-List - Blockly
+conceitos: programacao igual a form-list; o separator-list nem sempre edita todas as linhas
+tecnologias: -
+componentes: separatorlist, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1060
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Small Box - configuracao
+conceitos: Refresh Parent (modal), Target, Url, Url Label
+tecnologias: -
+componentes: small box
+regras: -
+praticas: -
+estado: ok
+
+@1213
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Small Box - Blockly
+conceitos: estatistica (getMax) via DAO: model.setSmallbox_1_val / setSmallbox_1_url(Core.getIGRPLink(app,pagina,acao))
+tecnologias: -
+componentes: small box, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1061
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Stat Box - configuracao
+conceitos: Refresh Parent, Target, Url, Url Label
+tecnologias: -
+componentes: stat box
+regras: -
+praticas: -
+estado: ok
+
+@1214
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Stat Box - Blockly
+conceitos: getAvg com where like; model.setStatbox_1_val
+tecnologias: -
+componentes: stat box, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1030
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Table - configuracao
+conceitos: List_page + Form_page; campo id hidden isKey envia p_<tag> nos botoes de tabela (view.<campo>.setParam(true)); botoes edit (Submit Modal, Refresh parent), delete (Submit), add na toolsbar (Modal); classe interna Pagina.Tabela
+tecnologias: -
+componentes: table, hidden isKey, button, toolsbar
+regras: campo isKey para passar o id da linha
+praticas: CRUD Generator como referencia
+estado: ok
+
+@1032
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Table - programacao com DAO
+conceitos: componentes de lista geram classe interna no Model; List<Pagina.Tabela> + model.setTabela(lista)
+tecnologias: -
+componentes: table
+regras: -
+praticas: -
+estado: ok
+
+@1031
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Table - programacao com query
+conceitos: model.loadTable_<x>(Core.query(conn, sql)) com aliases iguais as tags; filtros com query.andWhere; ajustar linhas apos carregar; link de report por linha
+tecnologias: -
+componentes: table
+regras: aliases = tags (caso contrario nao funciona)
+praticas: filtros por andWhere (parametrizado)
+estado: ok
+
+@1033
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Filtros em tabelas
+conceitos: botao search com Custom Return que faz forward para index; target Submit Ajax preferivel a Submit Form; filtro DAO com andWhere like
+tecnologias: -
+componentes: table, form, button
+regras: Custom Return no botao de pesquisa
+praticas: Submit Ajax para nao recarregar a pagina inteira
+estado: variante query concatena valores do utilizador no SQL [ENG: injecao]
+
+@1034
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Checkbox em tabelas
+conceitos: checkbox = <tag> (id da linha) + <tag>_check; dispensa hidden; Core.extractCheckBox(p_<tag>_fk, p_<tag>_check_fk) -> CheckBoxHelper.getChekedIds()/getUncheckedIds()
+tecnologias: -
+componentes: table, checkbox
+regras: -
+praticas: -
+estado: defeitos no exemplo (variaveis trocadas, newDocument)
+
+@1117
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Table - Blockly
+conceitos: bloco table com setters por coluna; filtros andWhere/andWhereBetween; botao pesquisar Custom Return; FK para outra classe DAO
+tecnologias: -
+componentes: table, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1063
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Timeline - configuracao
+conceitos: titulo, texto e data por item
+tecnologias: -
+componentes: timeline
+regras: -
+praticas: -
+estado: quase vazio
+
+@1215
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Timeline - Blockly
+conceitos: fases de um pedido a partir de tabela
+tecnologias: -
+componentes: timeline, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1065
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Tree Menu - configuracao e programacao
+conceitos: Has Tooltip, Remote (niveis seguintes carregados por pedido), Target, Value parser, Search, Call on load; exemplo do proprio portal (Listar_documentos.Treemenu_1)
+tecnologias: -
+componentes: treemenu
+regras: -
+praticas: -
+estado: ok; confirmado: o portal usa a acao remote_treemenu_1 para os filhos
+
+@1216
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Tree Menu - Blockly
+conceitos: dois niveis (level 1/2) e formulario carregado pelo p_id do link
+tecnologias: -
+componentes: treemenu, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1067
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Vertical Menu - configuracao
+conceitos: Dynamic Menu (botoes por Java)
+tecnologias: -
+componentes: vertical menu
+regras: -
+praticas: -
+estado: quase vazio
+
+@1217
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Vertical Menu - Blockly
+conceitos: lista com links e Target Submit Ajax; formulario pelo id
+tecnologias: -
+componentes: vertical menu, Blockly
+regras: -
+praticas: Submit Ajax para atualizar so componentes
+estado: ok
+
+@1069
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: View - configuracao e programacao
+conceitos: so output; Imagem; model.setView_<x>_img(Core.getLinkFile(id))
+tecnologias: -
+componentes: view
+regras: campos da View so fazem output
+praticas: -
+estado: gralha getLasrstName no exemplo
+
+@1218
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: View - Blockly
+conceitos: preencher View por id; campo de imagem por defeito removivel
+tecnologias: -
+componentes: view, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1046
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Box - configuracao
+conceitos: encapsula outros componentes
+tecnologias: -
+componentes: box
+regras: box so recebe componentes
+praticas: -
+estado: quase vazio
+
+@1050
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Finger Print - configuracao
+conceitos: impressoes digitais, foto e assinatura (ex.: CNI); View Only
+tecnologias: -
+componentes: finger print
+regras: -
+praticas: -
+estado: curto
+
+@1051
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Iframe - configuracao
+conceitos: Action, Boxed; model.setIframe_1_src(url)
+tecnologias: -
+componentes: iframe
+regras: -
+praticas: -
+estado: ok
+
+@1052
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Info-Painel - configuracao
+conceitos: Refresh Parent, Target, Value, Url
+tecnologias: -
+componentes: info painel
+regras: -
+praticas: -
+estado: ok
+
+@1053
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Leaflet Map
+conceitos: marcar pontos no mapa (Cabo Verde); Markers Table
+tecnologias: -
+componentes: leaflet map
+regras: -
+praticas: -
+estado: curto; titulo com gralha (Leaftet)
+
+@1054
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Map Chart - configuracao
+conceitos: Basemap (geojson), Basemap Label, Configuration (json), Data (json), Export, Tooltip, Tooltip Format
+tecnologias: -
+componentes: map chart
+regras: -
+praticas: -
+estado: ok
+
+@1055
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Map Viewer - configuracao
+conceitos: Basemap, Default; capturar coordenadas para campo Coordinates (Action para a pagina do mapa)
+tecnologias: -
+componentes: map viewer, coordinates
+regras: campo Coordinates usa Map Viewer
+praticas: -
+estado: ok
+
+@1056
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Panels - configuracao
+conceitos: paineis colapsaveis de componentes
+tecnologias: -
+componentes: panels
+regras: panel so recebe componentes
+praticas: -
+estado: quase vazio
+
+@1057
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Paragraph - configuracao
+conceitos: exemplo Hello World; Boxed; texto definido no design ou por codigo (view.<paragrafo>.setValue)
+tecnologias: -
+componentes: paragraph, section header
+regras: -
+praticas: -
+estado: ok
+
+@1058
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Quick Button Box - configuracao
+conceitos: caixa-botao para URL
+tecnologias: -
+componentes: quick button box
+regras: -
+praticas: -
+estado: quase vazio
+
+@1059
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Section Header - configuracao e programacao
+conceitos: titulo fixo ou por codigo: view.<sectionheader>.setValue(...)
+tecnologias: -
+componentes: section header
+regras: -
+praticas: -
+estado: curto; gralha sectioheader_1
+
+@1062
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Tab - configuracao e programacao
+conceitos: Justified, Control Active; separador ativo definido no index (ex.: model.setClients('1'))
+tecnologias: -
+componentes: tab
+regras: tab so recebe componentes
+praticas: -
+estado: ok
+
+@1064
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Toolsbar - configuracao
+conceitos: Align, Dynamic Menu, Icon Inline, Outline, Style
+tecnologias: -
+componentes: toolsbar
+regras: toolsbar so recebe botoes
+praticas: -
+estado: ok
+
+@1066
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Treelist - configuracao
+conceitos: lista de botoes com links
+tecnologias: -
+componentes: treelist
+regras: -
+praticas: -
+estado: quase vazio
+
+@1068
+versao: v1+v2 (componente do gerador IGRP2.3 presente nos dois ramos)
+tema: Video - configuracao
+conceitos: Boxed, Text (URL do video)
+tecnologias: -
+componentes: video
+regras: -
+praticas: -
+estado: quase vazio
+
+@1072
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Button - configuracao e programacao
+conceitos: sem dados no Model; cada botao gera action<Tag> ao gravar; propriedades Action, Class, Custom return, Icon, Fields (Change Src), Label, Tag, Parent (Tree List), Refresh Parent, Service (BizTalk, inativo), Target, Transaction; Targets: Alert Submit, Back, Change src, Close, Close and Refresh Parent, Confirm, FormList Lookup, Modal, New Tab, Popup, Right Panel, Scroll To Top, Self, Submit, Submit Ajax, Submit Form, Submit Modal, Submit Popup, Submit Right Panel, Void; retornos renderView(view), redirect(app,pagina,acao[,queryString]) (padrao, novo GET), forward(...) (mantem o input submetido; util em erro), Call (BPMN); bloco #gen-example
+tecnologias: -
+componentes: button
+regras: metodo = action + Tag; areas fora das reservadas nao podem ser alteradas; Transaction para botoes restritos
+praticas: forward em erro de validacao; redirect apos sucesso
+estado: ok
+
+@1073
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Custom Return
+conceitos: ativar Custom Return impede a geracao automatica do return do metodo do botao; o programador tem de devolver o Response (ex.: return this.forward(...))
+tecnologias: -
+componentes: button
+regras: com Custom Return a area preservada tem de devolver sempre um Response; sem ele, nao terminar a area com return incondicional [PROJ v2.1.1 - unreachable statement]
+praticas: -
+estado: ok (curto); [PROJ] a 1.a gravacao de pagina nova com Custom Return falha a compilacao (tambem referido em 9.1)
+
+@1118
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Botoes Editar/Eliminar com Blockly
+conceitos: editar envia chave primaria + isEdit; eliminar escolhe classe DAO e chave; detalhes envia so a chave
+tecnologias: -
+componentes: button, table, Blockly
+regras: blocos de envio de parametros exigem um campo isKey na tabela
+praticas: -
+estado: ok
+
+@1074
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Number - configuracao e programacao
+conceitos: so numeros; Java Type (Integer, Double, String...); Min/Max Value; conversoes Core.toInt(valor[,defeito]) (0 em erro), toShort, toLong, toDouble, toFloat, toBigDecimal...
+tecnologias: -
+componentes: number
+regras: -
+praticas: -
+estado: ok; exemplo de preenchimento colocado na area save
+
+@1075
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Number - propriedade Calculation
+conceitos: expressao matematica com {tag} dos campos (incl. ternario); Number Format: ceil, ceil:X, round, round:X, floor, abs, fixed:X (combinaveis por virgula)
+tecnologias: -
+componentes: number
+regras: -
+praticas: -
+estado: ok (2024)
+
+@1076
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Text - configuracao e programacao
+conceitos: recebe/devolve String; vazio devolve ""; set/get no Model
+tecnologias: -
+componentes: text
+regras: maxlength igual ao tamanho da coluna na BD
+praticas: -
+estado: ok; propriedades listadas (Url, Target) parecem copiadas de outro componente
+
+@1070
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Select/ComboBox - configuracao e programacao
+conceitos: recebe Map chave->valor e devolve a chave; Domain; Dynamic Option; Multiple (String[]); HashMap ordena por chave, LinkedHashMap mantem a ordem; opcao <null, "--select--"> bloqueia submissao se Required; selecionar com model.set<tag>(chave); view.<tag>.setValue(map) ou setQuery
+tecnologias: -
+componentes: select/combobox
+regras: Java Type coerente com a coluna (ex.: Integer)
+praticas: LinkedHashMap para ordem controlada
+estado: ok (2024)
+
+@1071
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Campo de selecao com DAO
+conceitos: Map a partir de findAll(); posicionar valor em edicao; gravar FK com findOne(model.get<tag>())
+tecnologias: -
+componentes: select/combobox
+regras: -
+praticas: -
+estado: ok
+
+@1119
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Combobox/Checkbox/Radiolist com Blockly
+conceitos: bloco option chave-valor manual ou a partir de DAO (chave = id)
+tecnologias: -
+componentes: select, checkboxlist, radiolist, Blockly
+regras: -
+praticas: -
+estado: ok
+
+@1224
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Load Service Data
+conceitos: Select com pesquisa dinamica por servico da propria aplicacao: view.<campo>.propertie().setProperty("load_service_data", Core.getIGRPLink(app,pagina,acao)); valor inicial com Map; metodo action<X> recebe p_search_data e devolve JSON (id/text)
+tecnologias: -
+componentes: select
+regras: -
+praticas: usar em listas grandes para nao carregar tudo na abertura
+estado: ok (2026); suportado nos dois ramos: select2.init.js envia p_search_data [CODIGO]
+
+@1077
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Check-box - configuracao e programacao
+conceitos: valor boleano; Switch; Integer: marcado com 1; String: marcado com "1" e devolve "1" ou ""
+tecnologias: -
+componentes: checkbox
+regras: -
+praticas: -
+estado: ok (2024); exemplo com system.out (minuscula)
+
+@1078
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Check-box List - configuracao
+conceitos: Map chave->valor; devolve String[] das chaves marcadas; Child Size; Domain; Java Type String[]
+tecnologias: -
+componentes: checkboxlist
+regras: Java Type String[]
+praticas: -
+estado: ok; referencia cruzada partida
+
+@1079
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Color - configuracao e programacao
+conceitos: Format do codigo de cor; set/get String (ex.: #f6ba00); comportamento diferente em tabela
+tecnologias: -
+componentes: color
+regras: -
+praticas: -
+estado: ok
+
+@1080
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Coordinates - configuracao e programacao
+conceitos: Action (pagina) e Map (Map Viewer) para captar coordenadas; get/set como qualquer campo
+tecnologias: -
+componentes: coordinates, map viewer
+regras: -
+praticas: -
+estado: defeito: condicao trainee != null || !trainee.hasError() (deveria ser &&)
+
+@1081
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Date - configuracao e programacao
+conceitos: String dd-MM-yyyy; Readonly recomendado (data so pelo seletor); Class; From/To (intervalo); Core.dateToString(data, formato); Core.formatDate; Core.ToDate(str, formato) -> java.sql.Date
+tecnologias: -
+componentes: date
+regras: formato dd-MM-yyyy
+praticas: campo Readonly para evitar formatos invalidos
+estado: ok (2025); exemplo usa padrao dd-mm-yyyy (mm = minutos)
+
+@1082
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Email - configuracao e programacao
+conceitos: valida formato de email; envio de email configurado em main.xml (mail.smtp.host, port, auth, socketFactory, mail.user, mail.password) e Core.mail(...)
+tecnologias: -
+componentes: email, main.xml
+regras: -
+praticas: [ENG] nao guardar a password de email em claro no repositorio
+estado: ok
+
+@1083
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: External Link - configuracao e programacao
+conceitos: input/output de URLs com validacao de formato
+tecnologias: -
+componentes: external link
+regras: -
+praticas: -
+estado: ok
+
+@1084
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Hidden - configuracao e programacao
+conceitos: guarda valores (ids) fora da vista; em tabela com isKey envia p_<tag> nos botoes da linha
+tecnologias: -
+componentes: hidden
+regras: -
+praticas: [ENG] o valor hidden e manipulavel pelo cliente: validar no servidor
+estado: ok
+
+@1085
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Hyperlink - configuracao e programacao
+conceitos: link para localizacoes dentro/fora da aplicacao sem executar Java; Action, Button (SeparatorList), Buttons Size, Custom Action, Class, Icon, Target, Show Header; exemplo de link para ficheiro em modal
+tecnologias: -
+componentes: hyperlink, table
+regras: -
+praticas: -
+estado: ok
+
+@1086
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Image - configuracao e programacao
+conceitos: exibicao e upload; Croppie (recorte), Rounded, Auto Upload (grava na BD e envia o id); view.<campo>.setValue(Core.getLinkFile(id)); id em p_<campo>
+tecnologias: -
+componentes: image
+regras: -
+praticas: -
+estado: ok; [PROJ v2.1.1] o setModel gerado nao liga o campo img ao Model: usar view.<campo>.setValue
+
+@1087
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Lookup - configuracao e programacao
+conceitos: Action (pagina de lista), LookupParams (Target Field / Value Field), Class; pagina de lista com campo Value Parser e hidden isKey; preenche lookup e hidden na origem
+tecnologias: -
+componentes: lookup, table, hidden
+regras: a tabela da pagina de lookup precisa de um campo value parser
+praticas: -
+estado: ok
+
+@1088
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Password - configuracao e programacao
+conceitos: esconde o texto; Virtual Keyboard opcional; Core.encrypt(password) com a chave padrao
+tecnologias: -
+componentes: password
+regras: -
+praticas: [ENG] para credenciais usar hashing (ex.: bcrypt) e nao cifra reversivel
+estado: ok; gralha Strign
+
+@1089
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Plain-text - configuracao e programacao
+conceitos: exibe texto/espaco num componente; Clear (linha inteira); model.set<tag>(texto)
+tecnologias: -
+componentes: plaintext
+regras: -
+praticas: -
+estado: ok
+
+@1090
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Radio - configuracao
+conceitos: como checkbox: <tag> e <tag>_check; valor selecionado obtido com Core.getParam("p_<tag>_fk")
+tecnologias: -
+componentes: radio, table
+regras: -
+praticas: -
+estado: ok; variavel cheched/checked inconsistente
+
+@1091
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: RadioList - configuracao e programacao
+conceitos: Map chave->valor; devolve a chave; Child Size; Domain; Java Type
+tecnologias: -
+componentes: radiolist
+regras: -
+praticas: -
+estado: ok
+
+@1092
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Range - configuracao e programacao
+conceitos: inteiro (aceita negativos); RangeMin, RangeMax
+tecnologias: -
+componentes: range
+regras: -
+praticas: -
+estado: ok
+
+@1093
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Separador - configuracao e programacao
+conceitos: organiza campos em Form/View/SeparatorList; view.<tag>.setLabel(...)
+tecnologias: -
+componentes: separator
+regras: -
+praticas: -
+estado: ok
+
+@1094
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Text-Area - configuracao e programacao
+conceitos: texto longo; vazio devolve ""
+tecnologias: -
+componentes: textarea
+regras: maxlength igual ao tamanho da coluna na BD
+praticas: -
+estado: ok
+
+@1095
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Text-Editor - configuracao e programacao
+conceitos: devolve conteudo formatado (marcacao) em vez de texto puro
+tecnologias: -
+componentes: texteditor
+regras: dimensionar a coluna para incluir as tags de formatacao
+praticas: [ENG] sanitizar o HTML guardado antes de o voltar a mostrar
+estado: ok
+
+@1096
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Time - configuracao e programacao
+conceitos: String HH:mm (24h); hora invalida nao e exibida; Core.dateToString / Core.ToChar
+tecnologias: -
+componentes: time
+regras: formato HH:mm
+praticas: -
+estado: ok
+
+@1097
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Upload File - configuracao e programacao
+conceitos: Accept (extensoes), Class, Multiple, Rend Value, Target Rend; ficheiro em p_<tag>; Core.saveFile("p_<tag>") devolve id (>0 em sucesso); atualizar ficheiro existente
+tecnologias: -
+componentes: upload
+regras: -
+praticas: [ENG] validar tipo e tamanho no servidor (Accept e so no cliente)
+estado: ok
+
+@1098
+versao: v1+v2 (campo do gerador presente nos dois ramos)
+tema: Virtual Keyboard - configuracao
+conceitos: alternativa ao Password contra keyloggers; Core.encrypt na captura
+tecnologias: -
+componentes: virtual keyboard
+regras: -
+praticas: [ENG] idem 11.16 (hashing para credenciais)
+estado: ok

@@ -1,0 +1,35 @@
+# --- Ferramentas de autoria instaladas localmente com `npx skills` (restauráveis a partir de skills-lock.json) ---
+# Não versionar: o `npx skills add <este-repo>` procura skills primeiro em .agents/skills/ e .claude/skills/ e só
+# pesquisa outras pastas se não encontrar nenhum. Teste com o CLI 1.9.0 (2026-11-21): um skill válido em .agents/skills/
+# escondeu o igrp-web-v1-v2. Sem estas pastas, um clone do repositório expõe só o igrp-web-v1-v2.
+.agents/skills/
+.claude/skills/
+.claude/settings.local.json
+.claude/commands/
+
+# --- Cópia local dos documentos do portal docs.igrp.cv (conteúdo da NOSi) ---
+# Regenerável com `python -I tools/extrair_portal.py audit/portal`. Mantêm-se no repositório o inventário
+# (audit/portal/inventario.csv, usado pelo validador), a árvore do menu e a análise (audit/analise.txt).
+# Remova esta regra se o repositório for interno e quiser versionar a evidência completa.
+audit/portal/[0-9]*.md
+audit/portal/orfaos/
+audit/portal/img/
+
+# --- Avaliações e pacotes gerados ---
+igrp-web-v1-v2-workspace/
+*.skill
+*.zip
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# --- Sistema operativo e IDE ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.iml
