@@ -144,5 +144,6 @@ Limitações: o JDK 8 e o JDK 11 foram emulados com `--release 8`/`--release 11`
 `actionIndex` + `action<Tag>`; áreas `packages_import`, `index`, uma por botão e `custom_actions`; nenhuma área `start-code` em
 Model ou View. 8 Controllers sem marcadores são páginas de sistema escritas à mão.
 
-**Ativação e carregamento.** 31/31 no teste de ativação, incluindo 4 pedidos só com código IGRP colado. O Claude Code e o Codex
+**Ativação e carregamento.** 47/47 no teste de ativação, incluindo pedidos só com código IGRP colado e com palavras-chave como
+DAO, CRUD Generator e criação de páginas; os mesmos termos fora do IGRP não ativam o skill. O Claude Code e o Codex
 (CLI 0.171.0, `codex debug prompt-input`) carregam o skill instalado com `npx skills add` a partir do GitHub.

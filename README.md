@@ -76,8 +76,12 @@ Copia a pasta `igrp-web-v1-v2/` inteira para um destes sítios:
 
 - Claude Code: `/skills` lista `igrp-web-v1-v2`. Também se pode invocar com `/igrp-web-v1-v2`.
 - Codex: `/skills` lista o skill. Também se pode invocar com `$igrp-web-v1-v2`.
-- O skill ativa-se sozinho quando a conversa refere IGRP, igrpweb, IGRP Studio ou cola código com marcas do IGRP
-  (`#start-code`, `Core.query`, `nosi.webapps`, `cv.igrp:igrp-core`, `ResultSet.Record`), mesmo sem escrever "IGRP".
+- O skill ativa-se sozinho quando a conversa refere IGRP, igrpweb ou IGRP Studio, mesmo sem escrever "IGRP", se houver:
+  - código com marcas do IGRP: `#start-code`/`custom_actions`, `Core.query`, `Core.findDomainByCode`, `ResultSet.Record`,
+    DAO `extends BaseActiveRecord<X>` (`nosi.base.ActiveRecord`), `nosi.webapps.<app>`, `cv.igrp:igrp-core` no `pom.xml`;
+  - ferramentas e conceitos do IGRP: criação de páginas no Studio (`dad`, `r=app/pagina/acao`), CRUD Generator e Application
+    Builder, `<mapping>` nos `cfg.xml` das ligações, RULES/remote, Report Designer, transactions, perfis e orgânicas, domínios.
+- DAO, CRUD ou criação de páginas fora do IGRP (Spring Data, Hibernate puro, React, Laravel, WordPress, JSF) não o ativam.
 
 ## Exemplos de pedidos
 
@@ -108,7 +112,7 @@ histórico de `Config.VERSION` e do `pom.xml` do framework, e volta a correr `to
 | Verificação | Resultado |
 |---|---|
 | `agentskills validate`, skill-creator `quick_validate`, `tools/validar_skill.py` | Válido; 0 erros, 0 avisos |
-| Teste de ativação da `description` (31 consultas, 4 delas só com código IGRP colado, sem a palavra "IGRP") | 31/31 |
+| Teste de ativação da `description` (47 consultas: DAO, CRUD Generator, criação de páginas, RULES, Report Designer, acessos, domínios, código colado; casos-limite repetidos 3 vezes) | 47/47; casos-limite 3/3 |
 | Versões: 424 builds publicadas (Maven Central e Nexus NOSi) e casos 1.10, 2.2.0, 2.9.9, 2.10 | Todas classificadas na linha certa; nenhuma 2.2+ publicada |
 | Instalação com `npx skills` 1.9.0, modo interativo (clonar → Universal + Claude Code → Project → Symlink ou Copy) | 21/21 ficheiros idênticos nos dois métodos; o Claude Code lista o skill no arranque; `npx skills list` mostra-o |
 | Carregamento no Codex (Codex CLI 0.171.0, `codex debug prompt-input`) | O skill instalado em `.agents/skills/` aparece na lista de skills do modelo, com a `description` completa e o caminho do `SKILL.md` |

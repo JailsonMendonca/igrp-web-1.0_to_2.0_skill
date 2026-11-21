@@ -29,5 +29,21 @@
   {"query": "Core.query(\"hr\", \"SELECT id, nome FROM funcionario WHERE dept=:d\").addInt(\"d\", 3).getResultList() às vezes devolve null e rebenta o for, como devo tratar isto nesta página?", "should_trigger": true},
   {"query": "depois de atualizar a framework este código deixou de compilar: ResultSet.Record rec = Core.query(conn, sql).getRecordList(); for (Record r : rec.RowList) { view.nome.setValue(r.getString(\"nome\")); } import nosi.core.webapp.databse.helpers.ResultSet;", "should_trigger": true},
   {"query": "tenho um recurso JAX-RS com jakarta.ws.rs.client.ClientBuilder.newBuilder().property(\"jersey.config.client.connectTimeout\", 5000) a correr no TomEE 10 e o timeout é ignorado, porquê?", "should_trigger": false},
-  {"query": "@RestController public class FuncionarioController { @Transactional @PostMapping(\"/gravar\") public ResponseEntity<?> gravar(@RequestBody FuncionarioDTO dto) {...} } dá LazyInitializationException ao devolver o funcionário, como resolvo?", "should_trigger": false}
+  {"query": "@RestController public class FuncionarioController { @Transactional @PostMapping(\"/gravar\") public ResponseEntity<?> gravar(@RequestBody FuncionarioDTO dto) {...} } dá LazyInitializationException ao devolver o funcionário, como resolvo?", "should_trigger": false},
+  {"query": "tenho este dao: import nosi.base.ActiveRecord.BaseActiveRecord; @Entity @Table(name=\"carro\") public class Carro extends BaseActiveRecord<Carro> { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Integer id; @ManyToOne private Marca marca; } como faço uma pesquisa por marca e ordeno pelo nome?", "should_trigger": true},
+  {"query": "usei o CRUD Generator do Application Builder para a tabela funcionario na ligação rh e gerou as páginas, mas a lista vem sempre vazia. onde vejo a query que ele gerou?", "should_trigger": true},
+  {"query": "como crio uma página nova no studio com um form de pesquisa, uma tabela e um botão exportar? a aplicação chama-se sis (dad sis)", "should_trigger": true},
+  {"query": "criei a página Encaminhamento só a copiar os ficheiros EncaminhamentoController.java, Encaminhamento.java e EncaminhamentoView.java de outra pasta pages e não abre em r=sis/Encaminhamento/index, porquê?", "should_trigger": true},
+  {"query": "o meu rh.rh_dev.cfg.xml tem <mapping class=\"nosi.webapps.rh.dao.Funcionario\"/> mas o DAO Departamento novo dá Unknown entity ao fazer insert(), onde tenho de o registar?", "should_trigger": true},
+  {"query": "no separador RULES da página pus remote no campo ilha para atualizar o concelho, mas o actionConcelho que escrevi no custom_actions nunca é chamado", "should_trigger": true},
+  {"query": "no Report Designer criei o relatório RPT_FUNC com fonte de dados por query; como o abro a partir de um botão da página passando o id do funcionário?", "should_trigger": true},
+  {"query": "criei uma transaction para o botão eliminar na gestão de acessos e associei-a ao perfil da orgânica, mas o botão continua visível para todos os utilizadores", "should_trigger": true},
+  {"query": "como carrego um select a partir de um domínio criado no studio (Core.findDomainByCode) e ponho um valor por defeito na criação da página?", "should_trigger": true},
+  {"query": "passo a passo para criar uma página de listagem com filtros e paginação no igrpweb", "should_trigger": true},
+  {"query": "gera-me um DAO genérico com Spring Data JPA (JpaRepository) para a entidade Carro com CRUD completo e paginação", "should_trigger": false},
+  {"query": "cria um CRUD de produtos em React com tabela, formulário de edição e chamadas fetch a uma API REST", "should_trigger": false},
+  {"query": "no WordPress como crio uma página nova com um template PHP personalizado e um formulário de contacto?", "should_trigger": false},
+  {"query": "implementa um GenericDAO<T, ID> com Hibernate SessionFactory em Java SE puro, sem framework, com save, update e delete", "should_trigger": false},
+  {"query": "o php artisan make:model -mcr do Laravel gera o CRUD mas a rota resource não aparece, porquê?", "should_trigger": false},
+  {"query": "num projeto JSF com PrimeFaces, como faço uma página com p:dataTable e um form de pesquisa ligado a um bean CDI?", "should_trigger": false}
 ]

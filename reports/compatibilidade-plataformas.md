@@ -18,7 +18,7 @@ Agent Skills (`agentskills.io/specification`), Claude Code (`code.claude.com/doc
 | Referências ligadas diretamente pelo `SKILL.md`, um nível, caminhos relativos | 19/19 |
 | Codificação UTF-8 sem BOM, fins de linha LF | Conforme |
 | Rastreabilidade: p_id citados existem no inventário; 169/169 documentos citados | Conforme |
-| Teste de ativação da `description` (skill-creator `run_eval`, modelo `claude-opus-5-5`, 1 execução por consulta) | **31/31**: 17/17 positivas ativam (4 só com código IGRP colado), 14/14 quase-acertos negativos não ativam |
+| Teste de ativação da `description` (skill-creator `run_eval`, modelo `claude-opus-5-5`, 1 execução por consulta) | **47/47**: 27/27 positivas ativam (código colado, DAO `BaseActiveRecord`, CRUD Generator, criação de páginas, RULES, Report Designer, acessos, domínios), 20/20 quase-acertos negativos não ativam (DAO/CRUD/páginas em Spring, Hibernate puro, React, Laravel, WordPress, JSF). 7 casos-limite repetidos 3 vezes: estáveis |
 
 ## 2. Por plataforma
 
