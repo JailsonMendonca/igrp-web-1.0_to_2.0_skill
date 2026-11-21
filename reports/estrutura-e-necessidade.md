@@ -121,3 +121,28 @@ Nada foi apagado nem alterado nos projetos.
 - A aplicabilidade à v2 dos temas comuns foi confirmada por presença de APIs e artefactos no código. O comportamento em execução de
   cada componente na v2 (sobretudo no gerador 2.4) não foi testado.
 - Regras `[PROJ]` vêm de um projeto com o gerador 2.1.1. Foram incluídas só quando confirmadas no código, mas podem variar noutras builds.
+
+## Parte 4 — Validação Java e das estruturas geradas (2026-11-21)
+
+**Compilação pelo Studio.** Exemplos de sintaxe do Java 8 ao Java 21 compilados com as opções do `Compiler.java`
+(`-encoding UTF-8 -warn:none <nível> -Xemacs`) e com o ECJ que corre de facto. O `pom.xml` declara o ECJ (v1: 3.19.0; v2: 3.44.0),
+mas o TomEE carrega `org.eclipse.jdt.*` do servidor (`URLClassLoaderFirst.shouldSkip` devolve `true`, confirmado no TomEE 8.0.16 e
+no 10.2.0):
+
+| Ambiente | ECJ efetivo | Compila | Não compila |
+|---|---|---|---|
+| v2, TomEE 10.2.0, JVM 17, `-16` | 4.27 (servidor) | Java 8–16: `List.of`, `var`, `switch` com `->`, text blocks, `instanceof` com padrão, `record` | `sealed`/`permits`, `switch` com padrões |
+| v1, TomEE 8.0.16, JDK 8 | 4.20 (servidor) | Java 8 | `List.of`, `var`, `switch` com `->`, text blocks, `record`… |
+| v1 ≥ 1.8.3.240908, JDK 11, `-11` | 4.20 | Java 8 + `var` + `List.of` | `switch` com `->`, text blocks, `record`… |
+| v1 ≥ 1.8.3.240908, JDK 17, `-16` | 4.20 | o mesmo que a v2 | `sealed`/`permits`, `switch` com padrões |
+| v1 ≥ 1.8.3.240908 fora do TomEE, JDK 17 | só o 3.19.0 do WAR | nada: "Unrecognized option : -16" | — |
+
+Limitações: o JDK 8 e o JDK 11 foram emulados com `--release 8`/`--release 11` no JDK 17 (não há JDK 8/11 nesta máquina).
+
+**Estrutura MVC gerada.** Nas 87 páginas de cada ramo oficial: Model + View + Controller por página (86 com JSON/XML/XSL em
+`images/IGRP/IGRP2.3/app/<app>/<pagina>/`; a v2 tem também artefactos `IGRP2.4`); todos os Controllers estendem `Controller`;
+`actionIndex` + `action<Tag>`; áreas `packages_import`, `index`, uma por botão e `custom_actions`; nenhuma área `start-code` em
+Model ou View. 8 Controllers sem marcadores são páginas de sistema escritas à mão.
+
+**Ativação e carregamento.** 31/31 no teste de ativação, incluindo 4 pedidos só com código IGRP colado. O Claude Code e o Codex
+(CLI 0.171.0, `codex debug prompt-input`) carregam o skill instalado com `npx skills add` a partir do GitHub.

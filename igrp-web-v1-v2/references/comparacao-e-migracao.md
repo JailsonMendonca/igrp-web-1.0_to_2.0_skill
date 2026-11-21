@@ -20,7 +20,7 @@
 | Flyway | 9.22.3 | 11.20.2 | [CÓD] |
 | Activiti (BPMN) | 6.0.0 | converter 7.1.0.M6 | [CÓD] |
 | Geradores de página | 2.3 | 2.3 + 2.4 (design system, temas 2.4) | [REPO], [CÓD-v2] |
-| Nível de compilação no Studio | `-1.8`; desde 1.8.3.240908 segundo a JVM (`-16` / `-11` / `-1.8`) | sempre `-16` | [CÓD `Compiler.java`] |
+| Nível de compilação no Studio | `-1.8`; desde 1.8.3.240908 segundo a JVM (`-16` / `-11` / `-1.8`). ECJ efetivo no TomEE 8.0.16: 4.20 (o 3.19 do WAR não aceita `-16`) | sempre `-16`; ECJ efetivo no TomEE 10.2.0: 4.27 | [CÓD `Compiler.java`], teste ECJ |
 | Configuração | `main.xml` (só ficheiro); `${VAR}` nos `.properties` com `IGRP_ENV_VARIABLE_SCAN=true` (≥ 1.8.1.240215) | `main.xml` + `${VAR}` nos `.properties`; chaves do `main.xml` por variáveis de ambiente (≥ 2.0.0.250220); `IGRP_SECRET_KEY` usado pelo `AuthenticationManager` | [CÓD-v1], [CÓD-v2] |
 | Renderização das páginas | XSL no browser; no servidor desde 1.9.0.260618 (cache de XSL sem invalidação ao gravar) | XSL no browser; no servidor desde 2.0.0.260217 (cache invalidada ao gravar desde 2.1.0.260307) | [CÓD `Controller.java`] |
 | `ResultSet.Record` | `RowList`, `Row` | `rowList`, `row` | [DOC 21.2], [CÓD] |

@@ -21,7 +21,7 @@
 | Persistência | Hibernate 5.6.15 + HikariCP 5.1 — mantém **`javax.persistence`** |
 | Migrações | Flyway 11.20.2 (`flyway-core`, `flyway-database-postgresql`) |
 | BPMN | Activiti bpmn-converter 7.1.0.M6 |
-| Compilação no Studio | ECJ 3.44, sempre com nível `-16` |
+| Compilação no Studio | Sempre nível `-16`. O `pom.xml` declara o ECJ 3.44.0, mas o TomEE carrega `org.eclipse.jdt.*` do servidor: no TomEE 10.2.0 corre o `tomee/lib/ecj-4.27.jar` [CÓD-v2], verificado em 2026-11-21 |
 | Front-end | Bootstrap + jQuery XML/XSL; geradores 2.3 e 2.4 (design system). A partir de 2.0.0.260217 o servidor transforma o XML em HTML (`&ir_cf=xml` devolve o XML); desde 2.1.0.260307 o Studio invalida a cache de XSL ao gravar [CÓD-v2 `Controller.java`, `PageController.java`] |
 | BD (mínimo/recomendado) | MySQL 5.7.8/8.0 · MariaDB 10.3/10.6 · PostgreSQL 11/14 · H2 2.0.204/2.1.10 · Oracle 11g/12c [REPO README] |
 
@@ -59,7 +59,8 @@ Mantém a estrutura de projeto da v1 (`nosi/webapps/<app>/pages|dao`, `images/IG
 ## 6. Compilação de páginas pelo Studio
 
 Nível ECJ sempre `-16` [CÓD-v2 `Compiler.java`]. O código das páginas tem de compilar em Java 16. Podes usar `var`, `record`,
-text blocks e `List.of()`. Não uses `sealed`/`permits` nem *pattern matching* em `switch` [PROJ].
+text blocks, `switch` com `->`, `instanceof` com padrão e `List.of()`. Não uses `sealed`/`permits` (Java 17) nem *pattern matching*
+em `switch` (Java 21) [PROJ]. Confirmado compilando com o ECJ 4.27 do TomEE 10.2.0 e `-16` em 2026-11-21 [CÓD-v2].
 
 ## 7. Diferenças de código a aplicar na v2
 

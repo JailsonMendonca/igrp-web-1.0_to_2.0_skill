@@ -11,6 +11,9 @@
   - `<Pagina>` (**Model**, `extends Model`): contentor de dados; campos com `@RParam(rParamName = "p_<tag>")`.
   - `<Pagina>View` (**View**, `extends View`): componentes e campos (`IGRPForm`, `IGRPToolsBar`, `IGRPButton`, `TextField`…), `render()`, `setModel()`.
   - `<Pagina>Controller` (**Controller**, `extends Controller`): `actionIndex()` e um `action<Tag>()` por botão; aplica as regras de negócio e devolve `Response`.
+  - Confirmado nas 87 páginas de cada ramo oficial: todos os Controllers estendem `Controller`, as áreas são `packages_import`,
+    `index`, uma por botão e `custom_actions`, nenhum Model nem View tem áreas `start-code`, e os artefactos ficam em
+    `images/IGRP/IGRP2.3/app/<app>/<pagina>/` (na v2 também `IGRP2.4`) [CÓD-v1+v2], 2026-11-21.
 - Artefactos do gerador em `images/IGRP/IGRP2.3/app/<app>/<pagina>/`: `<Pagina>.json` (definição do Studio), `.xml`, `.xsl` [CÓD-v1+v2], [PROJ].
   A página também é um registo na BD (ações/menus) e cria-se no Studio, nunca só com ficheiros [DOC 3.2.2 #1007], [DOC 5.2 #1021], [PROJ].
 
@@ -90,5 +93,5 @@
 3. Nenhuma área termina em `return` incondicional, salvo com Custom Return.
 4. Navegação para outra página com `this.queryString()` e `addQueryString`.
 5. Model e View iguais aos gerados pelo Studio.
-6. O código compila ao nível ECJ da versão (v1: o da JVM; v2: `-16`).
+6. O código compila ao nível ECJ da versão (v1: `-1.8`, ou o da JVM desde 1.8.3.240908; v2: `-16`). Ver `v1-legacy.md` §6 e `v2-horizon.md` §6.
 7. Teste final: abrir a página no Studio, gravar sem mudar nada e confirmar que compila [PROJ].

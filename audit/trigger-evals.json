@@ -23,5 +23,11 @@
   {"query": "já saiu o IGRP 2.2.0? temos um projeto horizon em 2.1.0.261013 com range [2.0.0,3.0.0) e quero saber o que muda se o maven apanhar uma build nova", "should_trigger": true},
   {"query": "depois de gravar a página no studio continua a aparecer o layout antigo, estamos no igrpweb 1.9.0.260930 com tomee 8.0.16", "should_trigger": true},
   {"query": "o maven está a resolver versões diferentes da commons-text em cada máquina por causa do range [1.9,2.0) no pom, como fixo a versão e vejo a que foi resolvida?", "should_trigger": false},
-  {"query": "vale a pena passar de Hibernate 5.6.15 para 6.4 numa aplicação Jakarta EE 10 em TomEE 10.1 sem framework nenhum?", "should_trigger": false}
+  {"query": "vale a pena passar de Hibernate 5.6.15 para 6.4 numa aplicação Jakarta EE 10 em TomEE 10.1 sem framework nenhum?", "should_trigger": false},
+  {"query": "copiei isto de um controller: public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException { Funcionario model = new Funcionario(); model.load(); /*----#start-code(gravar)----*/ /*----#end-code----*/ return this.redirect(\"rh\",\"Funcionario\",\"index\", this.queryString()); } — onde ponho a validação do NIF para não perder o código quando a página for regenerada?", "should_trigger": true},
+  {"query": "o pom.xml tem <groupId>cv.igrp</groupId><artifactId>igrp-core-war</artifactId><version>[1.9.0,2.0.0)</version><type>war</type> e queria correr isto em java 17, chega mudar o maven.compiler.source?", "should_trigger": true},
+  {"query": "Core.query(\"hr\", \"SELECT id, nome FROM funcionario WHERE dept=:d\").addInt(\"d\", 3).getResultList() às vezes devolve null e rebenta o for, como devo tratar isto nesta página?", "should_trigger": true},
+  {"query": "depois de atualizar a framework este código deixou de compilar: ResultSet.Record rec = Core.query(conn, sql).getRecordList(); for (Record r : rec.RowList) { view.nome.setValue(r.getString(\"nome\")); } import nosi.core.webapp.databse.helpers.ResultSet;", "should_trigger": true},
+  {"query": "tenho um recurso JAX-RS com jakarta.ws.rs.client.ClientBuilder.newBuilder().property(\"jersey.config.client.connectTimeout\", 5000) a correr no TomEE 10 e o timeout é ignorado, porquê?", "should_trigger": false},
+  {"query": "@RestController public class FuncionarioController { @Transactional @PostMapping(\"/gravar\") public ResponseEntity<?> gravar(@RequestBody FuncionarioDTO dto) {...} } dá LazyInitializationException ao devolver o funcionário, como resolvo?", "should_trigger": false}
 ]

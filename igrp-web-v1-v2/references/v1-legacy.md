@@ -76,10 +76,22 @@ variáveis de ambiente, o que permite tirar as passwords de BD do repositório [
 
 ## 6. Compilação de páginas pelo Studio
 
-O Studio compila o Java das páginas com ECJ. A partir de 1.8.3.240908 o nível depende da JVM em execução: Java 17+ → `-16`;
-Java 11 → `-11`; outra (Java 8) → `-1.8`. Nas builds anteriores é sempre `-1.8` [CÓD-v1 `nosi/core/webapp/compiler/helpers/Compiler.java`].
-Num ambiente v1 típico (JDK 8), escreve o código das páginas em sintaxe Java 8: sem `var`, `record` ou text blocks
-[ENG, inferido do nível de compilação].
+O Studio compila o Java das páginas com ECJ (`BatchCompiler`, opções `-encoding UTF-8 -warn:none <nível> -Xemacs`). A partir
+de 1.8.3.240908 o nível depende da JVM em execução: Java 17+ → `-16`; Java 11 → `-11`; outra (Java 8) → `-1.8`. Nas builds
+anteriores é sempre `-1.8` [CÓD-v1 `nosi/core/webapp/compiler/helpers/Compiler.java`].
+
+**Que ECJ corre.** O `pom.xml` declara o ECJ 3.19.0 (vai para `WEB-INF/lib`), mas o TomEE carrega `org.eclipse.jdt.*` do servidor
+(regra `URLClassLoaderFirst.shouldSkip`). No TomEE 8.0.16 o Studio usa por isso o `tomee/lib/ecj-4.20.jar`. Fora do TomEE, só com o
+ECJ 3.19 do WAR, o nível `-16` falha em todas as páginas ("Unrecognized option : -16"): numa JVM 17+ fora do TomEE, o Studio v1 não
+compila [CÓD-v1], verificado com os dois ECJ em 2026-11-21.
+
+| JVM do servidor (TomEE 8.0.16) | Compila | Não compila |
+|---|---|---|
+| Java 8 | Java 8 (lambdas, streams, `Optional`) | `List.of`/`Map.of` (API Java 9), `var`, `switch` com `->`, text blocks, `record` |
+| Java 11 (≥ 1.8.3.240908) | Java 8 + `var` + `List.of` | `switch` com `->`, text blocks, `instanceof` com padrão, `record` |
+| Java 17+ (≥ 1.8.3.240908) | até Java 16: `var`, `switch` com `->`, text blocks, `instanceof` com padrão, `record`, `List.of` | `sealed`/`permits`, `switch` com padrões |
+
+Num ambiente v1 típico (JDK 8, como pede o portal), escreve o código das páginas em Java 8 e sem APIs do Java 9+ [DOC 2.1.1 #1145].
 
 ## 7. Pontos a validar
 

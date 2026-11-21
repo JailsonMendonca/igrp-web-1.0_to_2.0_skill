@@ -18,7 +18,7 @@ Agent Skills (`agentskills.io/specification`), Claude Code (`code.claude.com/doc
 | Referências ligadas diretamente pelo `SKILL.md`, um nível, caminhos relativos | 19/19 |
 | Codificação UTF-8 sem BOM, fins de linha LF | Conforme |
 | Rastreabilidade: p_id citados existem no inventário; 169/169 documentos citados | Conforme |
-| Teste de ativação da `description` (skill-creator `run_eval`, modelo `claude-opus-5-5`, 1 execução por consulta) | **25/25**: 13/13 positivas ativam, 12/12 quase-acertos negativos não ativam |
+| Teste de ativação da `description` (skill-creator `run_eval`, modelo `claude-opus-5-5`, 1 execução por consulta) | **31/31**: 17/17 positivas ativam (4 só com código IGRP colado), 14/14 quase-acertos negativos não ativam |
 
 ## 2. Por plataforma
 
@@ -57,13 +57,15 @@ Testes feitos numa pasta temporária, com `DISABLE_TELEMETRY=1` e sem tocar nas 
 | `npx skills add <workspace> --list` | Encontra 1 skill: `igrp-web-v1-v2` (description completa) |
 | `npx skills add ./igrp-web-v1-v2 --list` | Encontra `igrp-web-v1-v2` |
 | Clone de um repositório com o `.gitignore` novo (34 ficheiros versionados) | Encontra só `igrp-web-v1-v2` |
-| Repositório com um skill válido em `.agents/skills/` e o `igrp-web-v1-v2` numa subpasta | Encontra só o outro skill: o `igrp-web-v1-v2` fica escondido (o CLI só pesquisa fora das pastas padrão quando não encontra nenhum skill nelas) |
+| Repositório com um skill válido em `.agents/skills/` e o `igrp-web-v1-v2` na raiz (estrutura real, sem o `.gitignore`) | Encontra os dois: o `skill-builder` de terceiros seria oferecido ao lado do `igrp-web-v1-v2` |
+| O mesmo, mas com o `igrp-web-v1-v2` dois níveis abaixo (`sub/igrp-web-v1-v2`) | Encontra só o outro skill (a pesquisa fora das pastas padrão só acontece quando não há nenhum skill nelas) |
+| Outro skill em `skills/` + `igrp-web-v1-v2` na raiz; ou os dois em `skills/<nome>/` | Encontra os dois nos dois casos |
 | `skills.sh.json` com `"paths"` | Os caminhos são pastas que contêm skills; um caminho para a própria pasta do skill não funciona, e a raiz é ignorada. Não serve para este repositório |
 | `npx skills add <clone> --skill igrp-web-v1-v2 -a claude-code -a codex -y` (projeto) | Cópia em `.agents/skills/igrp-web-v1-v2` (Codex, "universal") e symlink em `.claude/skills/igrp-web-v1-v2` (Claude Code); 21/21 ficheiros idênticos ao original; `skills-lock.json` criado |
 | Arranque do Claude Code nesse projeto (evento `init`) | `igrp-web-v1-v2` listado nos skills e como `/igrp-web-v1-v2` |
 | Modo interativo, como num terminal normal (fonte git clonada; ecrãs *Universal (.agents/skills)* + *Claude Code*, *Installation scope: Project*, *Installation method*) | **Symlink**: pasta real em `.agents/skills/` + symlink em `.claude/skills/`. **Copy to all agents**: pasta real nos dois sítios, `installMode: "copy"` no lock. Nos dois casos: 21/21 ficheiros idênticos, lock `sourceType: git` com o commit, e o Claude Code lista o skill no arranque |
 | CLI chamado dentro de um agente (`CLAUDECODE`/`AI_AGENT` definidas) | Não mostra os ecrãs e instala para os agentes encontrados na máquina (Antigravity, Claude Code, Cursor, Gemini CLI, GitHub Copilot, Junie, Windsurf neste PC) |
-| Codex | Não testado: o Codex CLI não está instalado. Caminho (`.agents/skills/`) e `agents/openai.yaml` conformes |
+| Codex (CLI 0.171.0 via `npx @openai/codex`, `CODEX_HOME` isolado, `codex debug prompt-input` no projeto instalado do GitHub) | O skill aparece na lista de skills que o modelo recebe, com a `description` completa e o caminho `.agents/skills/igrp-web-v1-v2/SKILL.md`. Os campos `interface` do `openai.yaml` não entram no prompt (são só para a interface) |
 
 Comando recomendado: `npx skills add https://github.com/JailsonMendonca/igrp-web-1.0_to_2.0_skill/tree/main/igrp-web-v1-v2 -a claude-code -a codex`
 (aponta diretamente para a pasta e não depende da descoberta). Instruções completas no `README.md`.
@@ -81,9 +83,9 @@ Comando recomendado: `npx skills add https://github.com/JailsonMendonca/igrp-web
 
 ## 4. Limitações
 
-- O carregamento foi testado no Claude Code, com uma instalação de projeto numa pasta temporária. Não foi testada a instalação
-  pessoal (`~/.claude/skills`, `~/.agents/skills`), nem o Codex, o claude.ai ou o ChatGPT. A estrutura cumpre a especificação de
-  cada plataforma.
+- O carregamento foi testado no Claude Code e no Codex, com instalações de projeto em pastas temporárias. Não foi testada a
+  instalação pessoal (`~/.claude/skills`, `~/.agents/skills`), nem o claude.ai ou o ChatGPT, nem a ativação implícita no Codex
+  (exigiria login e chamadas ao modelo).
 - O teste de ativação usa a `description` como comando de projeto do Claude Code (método do skill-creator), não o skill instalado.
   Com 25/25 não foi preciso o ciclo de otimização `run_loop`. As 25 consultas estão em `audit/trigger-evals.json`.
 - O `run_eval.py` do skill-creator não corre no Windows sem adaptação: usa `select()` sobre pipes e, em paralelo, cada execução vê

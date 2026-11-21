@@ -76,7 +76,8 @@ Copia a pasta `igrp-web-v1-v2/` inteira para um destes sítios:
 
 - Claude Code: `/skills` lista `igrp-web-v1-v2`. Também se pode invocar com `/igrp-web-v1-v2`.
 - Codex: `/skills` lista o skill. Também se pode invocar com `$igrp-web-v1-v2`.
-- O skill ativa-se sozinho quando a conversa refere IGRP, igrpweb, IGRP Studio ou código com essas marcas.
+- O skill ativa-se sozinho quando a conversa refere IGRP, igrpweb, IGRP Studio ou cola código com marcas do IGRP
+  (`#start-code`, `Core.query`, `nosi.webapps`, `cv.igrp:igrp-core`, `ResultSet.Record`), mesmo sem escrever "IGRP".
 
 ## Exemplos de pedidos
 
@@ -102,25 +103,16 @@ agentskills validate igrp-web-v1-v2                # validador oficial (pip inst
 Quando sair uma build nova (por exemplo 2.2.0), corre `tools/validar_versoes.py`, revê `references/variantes-e-builds.md` com o
 histórico de `Config.VERSION` e do `pom.xml` do framework, e volta a correr `tools/validar_skill.py`.
 
-## Publicar
-
-- Mantém `.agents/skills/` e `.claude/skills/` fora do repositório (o `.gitignore` já o faz). O `npx skills add` procura skills
-  primeiro nessas pastas. Num teste com o CLI 1.9.0, um skill de terceiros em `.agents/skills/` escondeu o `igrp-web-v1-v2`.
-- Com este `.gitignore`, um clone do repositório expõe só o `igrp-web-v1-v2`. Se um dia o repositório tiver mais skills, move-os
-  todos para `skills/<nome>/`, a pasta padrão do CLI.
-- Repositório: https://github.com/JailsonMendonca/igrp-web-1.0_to_2.0_skill. O skills.sh lista os skills automaticamente, a partir da telemetria das instalações
-  (`npx skills add JailsonMendonca/igrp-web-1.0_to_2.0_skill`) de repositórios públicos no GitHub. Não há formulário de submissão.
-- O frontmatter ainda não tem `license`. Define uma licença antes de publicar.
-- `audit/portal/<p_id>.md` (cópia dos documentos do portal da NOSi) fica fora do repositório por omissão e pode ser regenerado.
-
 ## Estado da validação (2026-11-21)
 
 | Verificação | Resultado |
 |---|---|
 | `agentskills validate`, skill-creator `quick_validate`, `tools/validar_skill.py` | Válido; 0 erros, 0 avisos |
-| Teste de ativação da `description` (25 consultas) | 25/25 |
+| Teste de ativação da `description` (31 consultas, 4 delas só com código IGRP colado, sem a palavra "IGRP") | 31/31 |
 | Versões: 424 builds publicadas (Maven Central e Nexus NOSi) e casos 1.10, 2.2.0, 2.9.9, 2.10 | Todas classificadas na linha certa; nenhuma 2.2+ publicada |
 | Instalação com `npx skills` 1.9.0, modo interativo (clonar → Universal + Claude Code → Project → Symlink ou Copy) | 21/21 ficheiros idênticos nos dois métodos; o Claude Code lista o skill no arranque; `npx skills list` mostra-o |
-| Carregamento no Codex | Não testado (Codex CLI não instalado); estrutura e caminhos conformes |
+| Carregamento no Codex (Codex CLI 0.171.0, `codex debug prompt-input`) | O skill instalado em `.agents/skills/` aparece na lista de skills do modelo, com a `description` completa e o caminho do `SKILL.md` |
+| Java no Studio: compilação com o ECJ que o TomEE carrega e as opções do `Compiler.java` | v2 (ECJ 4.27, `-16`): até Java 16. v1: Java 8 em JDK 8; + `var`/`List.of` em JDK 11; até Java 16 em JDK 17 (ECJ 4.20). Fora do TomEE, o ECJ 3.19 da v1 rejeita `-16` |
+| Estrutura MVC gerada (87 páginas em cada ramo oficial) | Model/View/Controller, `actionIndex` + `action<Tag>`, áreas `packages_import`/`index`/botão/`custom_actions`; nenhuma área em Model/View |
 
 Detalhes em `reports/`.
