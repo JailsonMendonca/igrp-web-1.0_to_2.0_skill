@@ -67,8 +67,26 @@ definidas, por exemplo pedido ao Claude Code), o CLI não faz perguntas e instal
 | Claude Code | `.claude/skills/igrp-web-v1-v2` (symlink para `.agents/skills/…`) | `~/.claude/skills/igrp-web-v1-v2` |
 | Codex | `.agents/skills/igrp-web-v1-v2` | `~/.agents/skills/igrp-web-v1-v2` |
 
-Gestão: `npx skills list`, `npx skills update`, `npx skills remove igrp-web-v1-v2`. Uma instalação no projeto fica registada
+Gestão: `npx skills list` (o que está instalado) e `npx skills update` (atualizar). Uma instalação no projeto fica registada
 em `skills-lock.json`.
+
+### Remover
+
+Corre na pasta onde instalaste (ou com `-g`, se instalaste em *Global*):
+
+```bash
+npx skills remove igrp-web-v1-v2      # pergunta "Are you sure…?" e retira de todos os agentes
+npx skills remove                     # interativo: marca o skill com espaço, Enter, e confirma
+npx skills remove igrp-web-v1-v2 -y   # sem confirmação
+```
+
+- O `remove` recebe o **nome** do skill, não o URL. Com o URL o CLI responde `No matching skills found`. `npx remove …`
+  (sem `skills`) não existe: o npm responde `could not determine executable to run`.
+- Retira `.agents/skills/igrp-web-v1-v2`, o symlink em `.claude/skills/` e a entrada do `skills-lock.json`.
+- `-a claude-code` retira só o symlink do Claude Code; o Codex continua com o skill. `-a codex` não retira nada enquanto o
+  Claude Code usar a cópia partilhada em `.agents/skills/`, embora o CLI diga `Successfully removed`.
+
+Validado com o CLI 1.9.0 em 2026-11-23, num projeto de teste instalado a partir do GitHub.
 
 ### Manual
 
