@@ -31,30 +31,36 @@ skills-lock.json         ferramentas de autoria do workspace instaladas com `npx
 Requer Node.js 22.20 ou superior. O CLI copia o skill para `.agents/skills/` e cria um symlink para cada agente escolhido.
 Para desligar a telemetria anónima do CLI, define `DISABLE_TELEMETRY=1` (ou `DO_NOT_TRACK=1`).
 
+Corre o comando sem opções, num terminal normal (PowerShell, cmd, bash), para escolheres tudo:
+
 ```bash
-# A partir do GitHub (aponta diretamente para a pasta do skill):
-npx skills add https://github.com/JailsonMendonca/igrp-web-1.0_to_2.0_skill/tree/main/igrp-web-v1-v2 -a claude-code -a codex
-
-# Ou pelo repositório, escolhendo o skill:
-npx skills add JailsonMendonca/igrp-web-1.0_to_2.0_skill --skill igrp-web-v1-v2 -a claude-code -a codex
-
-# A partir de uma cópia local:
-npx skills add ./igrp-web-v1-v2 -a claude-code -a codex
+npx skills add https://github.com/JailsonMendonca/igrp-web-1.0_to_2.0_skill/tree/main/igrp-web-v1-v2
 ```
 
-Sem mais opções, o CLI pergunta tudo no terminal (validado com o CLI 1.9.0 em 2026-11-21):
+O CLI pergunta, por esta ordem (validado com o CLI 1.9.0):
 
 1. **Source** — clona o repositório e encontra `igrp-web-v1-v2`.
 2. **Agentes** — `Universal (.agents/skills)` vem sempre incluído e serve Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode,
-   Amp e outros. Em *Additional agents* marca **Claude Code** (`.claude/skills`).
+   Amp e outros. Em *Additional agents* escolhe os restantes, por exemplo **Claude Code** (`.claude/skills`); espaço marca,
+   Enter confirma.
 3. **Installation scope** — *Project* (pasta atual, para versionar com o projeto IGRP) ou *Global* (todos os projetos).
 4. **Installation method** — *Symlink (Recommended)*: uma cópia em `.agents/skills/` e um symlink em `.claude/skills/`. *Copy to
    all agents*: uma cópia real em cada pasta.
 5. **Proceed with installation** — confirma.
 
-Equivalente sem perguntas: `-a claude-code` (agentes), `-g` (Global), `--copy` (Copy) e `-y` (confirmar). Se o comando correr
-dentro de um agente (variáveis `CLAUDECODE` ou `AI_AGENT` definidas), o CLI não mostra os ecrãs e instala para os agentes que
-encontrar na máquina. Para escolher, corre-o num terminal normal ou passa as opções.
+Cada opção responde a uma pergunta antes de ela aparecer, e o CLI deixa de a fazer. Usa-as só quando já sabes a resposta,
+por exemplo em scripts:
+
+| Opção | Pergunta que deixa de aparecer |
+|---|---|
+| `-a claude-code -a codex` | Agentes (ficam só os indicados) |
+| `-g` | Âmbito (fica *Global*) |
+| `--copy` | Método (fica *Copy*) |
+| `-y` | Todas, incluindo a confirmação |
+
+Outras fontes: `npx skills add JailsonMendonca/igrp-web-1.0_to_2.0_skill --skill igrp-web-v1-v2` (pelo repositório) ou
+`npx skills add ./igrp-web-v1-v2` (cópia local). Se o comando correr dentro de um agente (variáveis `CLAUDECODE` ou `AI_AGENT`
+definidas, por exemplo pedido ao Claude Code), o CLI não faz perguntas e instala para os agentes que encontrar na máquina.
 
 | Agente | Projeto | Utilizador (`-g`) |
 |---|---|---|

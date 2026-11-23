@@ -67,7 +67,12 @@ Testes feitos numa pasta temporária, com `DISABLE_TELEMETRY=1` e sem tocar nas 
 | CLI chamado dentro de um agente (`CLAUDECODE`/`AI_AGENT` definidas) | Não mostra os ecrãs e instala para os agentes encontrados na máquina (Antigravity, Claude Code, Cursor, Gemini CLI, GitHub Copilot, Junie, Windsurf neste PC) |
 | Codex (CLI 0.171.0 via `npx @openai/codex`, `CODEX_HOME` isolado, `codex debug prompt-input` no projeto instalado do GitHub) | O skill aparece na lista de skills que o modelo recebe, com a `description` completa e o caminho `.agents/skills/igrp-web-v1-v2/SKILL.md`. Os campos `interface` do `openai.yaml` não entram no prompt (são só para a interface) |
 
-Comando recomendado: `npx skills add https://github.com/JailsonMendonca/igrp-web-1.0_to_2.0_skill/tree/main/igrp-web-v1-v2 -a claude-code -a codex`
+Comando recomendado, sem opções, para o utilizador escolher agentes, âmbito e método:
+`npx skills add https://github.com/JailsonMendonca/igrp-web-1.0_to_2.0_skill/tree/main/igrp-web-v1-v2`.
+
+Perguntas mostradas por opção (teste de 2026-11-23 a partir do GitHub, cancelado na confirmação): sem opções → agentes, âmbito,
+método, confirmação; `-a claude-code -a codex` → âmbito, método, confirmação (os agentes ficam pré-escolhidos, que foi o
+que aconteceu na instalação no projeto `teste`); `--copy` → agentes, âmbito, confirmação; `-g` → agentes, método, confirmação.
 (aponta diretamente para a pasta e não depende da descoberta). Instruções completas no `README.md`.
 
 ## 3. Decisões de portabilidade
